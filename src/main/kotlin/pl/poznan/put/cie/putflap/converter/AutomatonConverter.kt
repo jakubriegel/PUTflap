@@ -114,4 +114,18 @@ object AutomatonConverter {
             automaton
         )
     }
+
+    fun toJSON(automaton: Automaton): Pair<ConversionReport, Automaton> {
+        return Pair(ConversionReport(
+            AutomatonType.get(automaton).toString(), "grammar", true, AutomatonReport(automaton)),
+            automaton
+        )
+    }
+
+    fun toJSON(grammar: Grammar): Pair<ConversionReport, Grammar> {
+        return Pair(ConversionReport(
+            "grammar", "grammar", true, GrammarReport(grammar)),
+            grammar
+        )
+    }
 }

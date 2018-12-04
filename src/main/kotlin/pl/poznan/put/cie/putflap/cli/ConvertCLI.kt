@@ -20,7 +20,7 @@ import java.io.Serializable
 internal object ConvertCLI : CliktCommand(name = "convert", help = "perform various JFLAP convert tasks") {
 
     private enum class Type {
-        DFA, MINI, GR, RE, PDA, FSA
+        DFA, MINI, GR, RE, PDA, FSA, JSON
     }
 
     private val type by option("-t", "--type",  help = "type of conversion to perform")
@@ -54,6 +54,12 @@ internal object ConvertCLI : CliktCommand(name = "convert", help = "perform vari
 
             Type.FSA -> AutomatonConverter.toFSA(source as? Grammar
                 ?: throw IncompatibleAutomatonException("Only regular, right linear grammar can be converted to FSA"))
+
+            Type.JSON -> when (source) {
+                is Automaton -> AutomatonConverter.toJSON(source)
+                is Grammar -> AutomatonConverter.toJSON(source)
+                else -> throw IncompatibleAutomatonException("Only automatons and grammars can be converted to JSON")
+            }
         }
 
         if (type == Type.RE) echo(conversion.second)
