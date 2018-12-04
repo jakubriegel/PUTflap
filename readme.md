@@ -65,7 +65,7 @@ Gradle tasks implemented in project generate three equally capable version of PU
 tba
  
 ## license
-PUTflap is distributed free of charge based on JFLAP license and Creative Commons Attribution Share Alike 4.0	 
+PUTflap is distributed free of charge based on JFLAP license and CC BY-NC-SA 4.0	 
 
 ### JFLAP 7.1 LICENSE
 
