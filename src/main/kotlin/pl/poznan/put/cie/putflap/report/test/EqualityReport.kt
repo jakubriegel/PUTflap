@@ -5,7 +5,7 @@ import pl.poznan.put.cie.putflap.report.Report
 class EqualityReport(
     val equal: Boolean
 ) : Report() {
-    override fun toInfoText(): String {
-        return if (equal) "equal" else "not equal"
+    override fun toString(): String {
+        return "EqualityReport(equal=$equal)"
     }
 }

@@ -13,7 +13,7 @@ class ProductionReport private constructor(
         production.rhs
     )
 
-    override fun toInfoText(): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun toString(): String {
+        return "ProductionReport(left='$left', right='$right')"
     }
 }

@@ -52,7 +52,7 @@ class GrammarGenerator (
         // add productions to the grammar
         grammar.addProductions(productions.sortedBy { it.lhs }.toTypedArray())
 
-        return Pair(GenerationReport(-1, grammar), grammar)
+        return Pair(GenerationReport(grammar), grammar)
     }
 
     private fun getNonterminals(): Array<Char> {

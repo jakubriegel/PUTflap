@@ -7,7 +7,7 @@ class TransitionReport (
     val to: Int,
     val read: String
 ) : Report() {
-    override fun toInfoText(): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun toString(): String {
+        return "TransitionReport(from=$from, to=$to, read='$read')"
     }
 }

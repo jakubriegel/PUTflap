@@ -16,5 +16,4 @@ abstract class Report protected constructor() {
 
     }
 
-    abstract fun toInfoText(): String
 }

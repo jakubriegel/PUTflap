@@ -3,18 +3,15 @@ package pl.poznan.put.cie.putflap.report.structure.automaton
 import jflap.automata.Automaton
 import pl.poznan.put.cie.putflap.jflapextensions.automaton.AutomatonType
 import pl.poznan.put.cie.putflap.jflapextensions.automaton.labelValue
-import pl.poznan.put.cie.putflap.report.StateReport
 import pl.poznan.put.cie.putflap.report.structure.StructureReport
 
 class AutomatonReport private constructor(
-    id: Int,
     val type: String,
     val states: Array<StateReport>,
     val transitions: Array<TransitionReport>
-    ) : StructureReport(id) {
+    ) : StructureReport() {
 
     constructor(automaton: Automaton) : this(
-        -1,
         AutomatonType.get(automaton).toString(),
         {
             val list = automaton.states.toList()

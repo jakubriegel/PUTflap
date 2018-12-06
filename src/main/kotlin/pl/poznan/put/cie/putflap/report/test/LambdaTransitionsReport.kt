@@ -1,6 +1,7 @@
 package pl.poznan.put.cie.putflap.report.test
 
 import pl.poznan.put.cie.putflap.report.Report
+import java.util.*
 
 class LambdaTransitionsReport(
     val hasLambdaTransitions: Boolean,
@@ -15,7 +16,9 @@ class LambdaTransitionsReport(
         }
     }
 
-    override fun toInfoText(): String {
-        return if (hasLambdaTransitions) "has lambda transitions" else "no lambda transitions"
+    override fun toString(): String {
+        return "LambdaTransitionsReport(hasLambdaTransitions=$hasLambdaTransitions, lambdaTransitions=${Arrays.toString(
+            lambdaTransitions
+        )})"
     }
 }

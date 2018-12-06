@@ -2,6 +2,7 @@ package pl.poznan.put.cie.putflap.report.test
 
 import jflap.automata.State
 import pl.poznan.put.cie.putflap.report.Report
+import java.util.*
 
 class NondeterminismReport private constructor(
     val deterministic: Boolean,
@@ -19,7 +20,9 @@ class NondeterminismReport private constructor(
         }
     }
 
-    override fun toInfoText(): String {
-        return if (deterministic) "deterministic" else ("is nondeterministic at: $nonDeterministicStates")
+    override fun toString(): String {
+        return "NondeterminismReport(deterministic=$deterministic, nonDeterministicStates=${Arrays.toString(
+            nonDeterministicStates
+        )})"
     }
 }

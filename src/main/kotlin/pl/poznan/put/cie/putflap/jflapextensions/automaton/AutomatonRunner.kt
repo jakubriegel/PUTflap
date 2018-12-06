@@ -1,11 +1,24 @@
 package pl.poznan.put.cie.putflap.jflapextensions.automaton
 
 import jflap.automata.Automaton
+import org.apache.xpath.operations.Mult
 import pl.poznan.put.cie.putflap.report.ErrorReport
+import pl.poznan.put.cie.putflap.report.MultipleRunReport
 import pl.poznan.put.cie.putflap.report.RunReport
+import pl.poznan.put.cie.putflap.report.structure.automaton.AutomatonReport
 import pl.poznan.put.cie.putflap.report.structure.automaton.StepReport
 
 object AutomatonRunner {
+
+    fun runAutomaton(automaton: Automaton, input: Array<String>): MultipleRunReport {
+        val runs = Array(input.size) { runAutomaton(automaton, input[it]) }
+
+        return MultipleRunReport(
+            AutomatonReport(automaton),
+            runs
+        )
+    }
+
     fun runAutomaton(automaton: Automaton, input: String): RunReport {
         if (automaton.initialState == null) return RunReport.generateWithError(
             AutomatonType.get(automaton), input, ErrorReport.generate(ErrorReport.Companion.Error.NO_INITIAL_STATE)

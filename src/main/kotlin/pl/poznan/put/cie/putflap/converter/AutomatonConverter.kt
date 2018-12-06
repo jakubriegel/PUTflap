@@ -88,7 +88,7 @@ object AutomatonConverter {
         FSAToRegularExpressionConverter.convertToSimpleAutomaton(automaton)
         val regexp = FSAToRegularExpressionConverter.convertToRegularExpression(automaton)
         return Pair(ConversionReport(
-            AutomatonType.get(automaton).toString(), "grammar", true, RegExpReport(-1, regexp)),
+            AutomatonType.get(automaton).toString(), "grammar", true, RegExpReport(regexp)),
             regexp
         )
     }

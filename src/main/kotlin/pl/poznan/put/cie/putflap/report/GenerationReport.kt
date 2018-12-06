@@ -4,22 +4,21 @@ import jflap.automata.Automaton
 import jflap.grammar.Grammar
 import pl.poznan.put.cie.putflap.jflapextensions.automaton.AutomatonTester
 import pl.poznan.put.cie.putflap.jflapextensions.automaton.AutomatonType
+import pl.poznan.put.cie.putflap.report.structure.StructureReport
 import pl.poznan.put.cie.putflap.report.structure.automaton.AutomatonReport
 import pl.poznan.put.cie.putflap.report.structure.grammar.GrammarReport
 import pl.poznan.put.cie.putflap.report.test.LambdaTransitionsReport
 import pl.poznan.put.cie.putflap.report.test.NondeterminismReport
 
 class GenerationReport private constructor(
-    val id:  Int,
     val type: String,
     val alphabet: AlphabetReport,
     val nondeterminism: NondeterminismReport?,
     val lambdaTransitions: LambdaTransitionsReport?,
-    val production: Report
+    val production: StructureReport
 ) : Report() {
 
-    constructor(id: Int, automaton: Automaton) : this(
-        id,
+    constructor(automaton: Automaton) : this(
         AutomatonType.get(automaton).toString(),
         AutomatonTester.getAlphabet(automaton),
         AutomatonTester.checkNondeterminism(automaton),
@@ -27,8 +26,7 @@ class GenerationReport private constructor(
         AutomatonReport(automaton)
     )
 
-    constructor(id: Int, grammar: Grammar) : this(
-        id,
+    constructor(grammar: Grammar) : this(
         "grammar",
         AutomatonTester.getAlphabet(grammar),
         null,
@@ -36,7 +34,7 @@ class GenerationReport private constructor(
         GrammarReport(grammar)
     )
 
-    override fun toInfoText(): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun toString(): String {
+        return "GenerationReport(type='$type', alphabet=$alphabet, nondeterminism=$nondeterminism, lambdaTransitions=$lambdaTransitions, production=$production)"
     }
 }

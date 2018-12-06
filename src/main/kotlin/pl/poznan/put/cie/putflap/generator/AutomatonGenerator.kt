@@ -48,7 +48,7 @@ class AutomatonGenerator(
                 inState, outState, letter -> FSATransition(inState, outState, letter)
         }
 
-        return Pair(GenerationReport(-1, automaton), automaton)
+        return Pair(GenerationReport(automaton), automaton)
     }
 
     /**
@@ -66,7 +66,7 @@ class AutomatonGenerator(
                 inState, outState, letter -> MealyTransition(inState, outState, letter, getRandomOutputLetter())
         }
 
-        return Pair(GenerationReport(-1, automaton), automaton)
+        return Pair(GenerationReport(automaton), automaton)
     }
 
     /**
@@ -86,7 +86,7 @@ class AutomatonGenerator(
                 inState, outState, letter -> MooreTransition(inState, outState, letter)
         }
 
-        return Pair(GenerationReport(-1, automaton), automaton)
+        return Pair(GenerationReport(automaton), automaton)
     }
 
     /**
@@ -193,7 +193,7 @@ class AutomatonGenerator(
     }
 
     private fun getRandomOutputLetter(): String {
-        return outputAlphabet[Math.floor(Math.random() * outputAlphabet.size).toInt()].toString()
+        return outputAlphabet[Math.floor(Math.random() * outputAlphabet.size).toInt()]
     }
 
     private fun addStates(automaton: Automaton): List<State> {
@@ -223,7 +223,7 @@ class AutomatonGenerator(
                 automaton.addTransition(transitionClass(
                     addedStates[state],
                     addedStates[matrix[state][letter]],
-                    alphabet[letter].toString()
+                    alphabet[letter]
                 ))
     }
 }

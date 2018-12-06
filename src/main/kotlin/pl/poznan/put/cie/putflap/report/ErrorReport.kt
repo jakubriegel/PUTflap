@@ -20,7 +20,8 @@ class ErrorReport private constructor(
         }
     }
 
-    override fun toInfoText(): String {
-        return "Error $code - $message\n"
+    override fun toString(): String {
+        return "ErrorReport(code=$code, message='$message')"
     }
+
 }

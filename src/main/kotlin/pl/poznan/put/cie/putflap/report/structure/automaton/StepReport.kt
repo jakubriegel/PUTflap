@@ -71,16 +71,8 @@ class StepReport private constructor(
         }
     }
 
-    override fun toInfoText(): String {
-        return "state: $state, read: $read," +
-                (if (currentOutput != null) " current output: $currentOutput," else "") +
-                (if (stack != null )" stack: $stack," else "") +
-                " to process: $toProcess"
-    }
-
     override fun toString(): String {
         return "StepReport(state=$state, read='$read', toProcess='$toProcess', currentOutput=$currentOutput, stack=$stack)"
     }
-
 
 }
