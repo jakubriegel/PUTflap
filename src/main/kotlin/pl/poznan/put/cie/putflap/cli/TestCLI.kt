@@ -18,7 +18,7 @@ import java.io.File
 internal object TestCLI : CliktCommand(name = "test", help = "check specific characteristics of given automaton") {
 
     private enum class Type {
-        NDET, LAMBDA, EQ, AL
+        NDET, EQ, AL
     }
 
     private val type by option("-t", "--type",  help = "type of test")
@@ -33,8 +33,6 @@ internal object TestCLI : CliktCommand(name = "test", help = "check specific cha
         val testedItem = XMLCodec().decode(File(inputFile[0]), null)
 
         val report = when (type) {
-            Type.LAMBDA -> AutomatonTester.checkLambdaTransitions(testedItem as? Automaton
-                ?: throw IncompatibleAutomatonException("Only automatons can be checked for lambda transitions"))
             Type.NDET -> AutomatonTester.checkNondeterminism(testedItem as? Automaton
                 ?: throw IncompatibleAutomatonException("Only automatons can be checked for non determinism"))
             Type.EQ -> {

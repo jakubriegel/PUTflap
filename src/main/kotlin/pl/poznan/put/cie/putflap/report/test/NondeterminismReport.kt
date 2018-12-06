@@ -6,23 +6,21 @@ import java.util.*
 
 class NondeterminismReport private constructor(
     val deterministic: Boolean,
-    val nonDeterministicStates: Array<Int>?
+    val nonDeterministicStates: Array<Int>?,
+    val lambdaTransitions: LambdaTransitionsReport?
 ) : Report() {
 
-    companion object {
-        fun generate(deterministic: Boolean, nonDeterministicStates: Array<State>): NondeterminismReport {
-            val ids = Array(nonDeterministicStates.size) { nonDeterministicStates[it].id }
-
-            return NondeterminismReport(
-                deterministic,
-                ids
-            )
-        }
-    }
+    constructor(deterministic: Boolean, nonDeterministicStates: Array<State>, lambdaTransitionsReport: LambdaTransitionsReport) : this(
+        deterministic,
+        Array(nonDeterministicStates.size) { nonDeterministicStates[it].id },
+        lambdaTransitionsReport
+    )
 
     override fun toString(): String {
         return "NondeterminismReport(deterministic=$deterministic, nonDeterministicStates=${Arrays.toString(
             nonDeterministicStates
-        )})"
+        )}, lambdaTransitions=$lambdaTransitions)"
     }
+
+
 }

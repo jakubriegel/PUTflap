@@ -15,6 +15,17 @@ import pl.poznan.put.cie.putflap.report.test.LambdaTransitionsReport
 import pl.poznan.put.cie.putflap.report.test.NondeterminismReport
 
 object AutomatonTester {
+    fun checkNondeterminism(automaton: Automaton): NondeterminismReport {
+        val detector = NondeterminismDetectorFactory.getDetector(automaton)
+        val states = detector.getNondeterministicStates(automaton)
+
+        return NondeterminismReport(
+            states.isEmpty(),
+            states,
+            checkLambdaTransitions(automaton)
+        )
+    }
+
     fun checkLambdaTransitions(automaton: Automaton): LambdaTransitionsReport {
         val checker = LambdaCheckerFactory.getLambdaChecker(automaton)
         val transitions = automaton.transitions
@@ -23,16 +34,6 @@ object AutomatonTester {
 
         return LambdaTransitionsReport.generate(
             lambdaTransitions.isNotEmpty()
-        )
-    }
-
-    fun checkNondeterminism(automaton: Automaton): NondeterminismReport {
-        val detector = NondeterminismDetectorFactory.getDetector(automaton)
-        val states = detector.getNondeterministicStates(automaton)
-
-        return NondeterminismReport.generate(
-            states.isEmpty(),
-            states
         )
     }
 
