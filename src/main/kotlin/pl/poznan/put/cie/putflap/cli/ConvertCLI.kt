@@ -28,8 +28,6 @@ internal object ConvertCLI : CliktCommand(name = "convert", help = "perform vari
         .convert { Type.valueOf(it.toUpperCase()) }
         .required()
 
-    private val output by option("-o", "--output", help = "name of output file")
-
     private val json by option("-j", "--json", help = "write answer as json")
         .flag(default = false)
 

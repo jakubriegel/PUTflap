@@ -7,11 +7,48 @@ import jflap.automata.mealy.MealyMachine
 import jflap.automata.pda.PDATransition
 import jflap.automata.pda.PushdownAutomaton
 import pl.poznan.put.cie.putflap.jflapextensions.automaton.labelValue
+import pl.poznan.put.cie.putflap.report.WordsReport
 import java.util.*
 
 object WordGenerator {
     private const val p = .5
     private const val LAMBDA = ""
+
+    fun randomWords(automaton: Automaton, n: Int = 0): WordsReport {
+        val words = mutableSetOf<String>()
+        var sinceLastNew = 0
+        val maxSinceLastNew = getMaxSinceLastNew(automaton.transitions.size)
+        while (words.size < n && sinceLastNew < maxSinceLastNew) {
+            val word = randomWord(automaton)
+
+            if (words.add(word)) sinceLastNew = 0
+            else sinceLastNew++
+        }
+
+        return WordsReport(
+            n,
+            words.size,
+            words.toTypedArray()
+        )
+    }
+
+    fun randomWords(automaton: PushdownAutomaton, n: Int = 0): WordsReport {
+        val words = mutableSetOf<String>()
+        var sinceLastNew = 0
+        val maxSinceLastNew = getMaxSinceLastNew(automaton.transitions.size)
+        while (words.size < n && sinceLastNew < maxSinceLastNew) {
+            val word = randomWord(automaton)
+
+            if (words.add(word)) sinceLastNew = 0
+            else sinceLastNew++
+        }
+
+        return WordsReport(
+            n,
+            words.size,
+            words.toTypedArray()
+        )
+    }
 
     fun randomWord(automaton: Automaton): String {
         var word = ""
@@ -94,4 +131,6 @@ object WordGenerator {
 
         return startState
     }
+
+    private fun getMaxSinceLastNew(n: Int): Int = n * 50
 }
