@@ -26,7 +26,7 @@ internal object WordCLI : CliktCommand(name = "word", help = "generate valid wor
     private val json by option("-j", "--json", help = "write answer as json")
         .flag(default = false)
 
-    private val automatonFile by argument(help = "name of file with automaton")
+    private val automatonFile by argument(help = "name of file with automaton to run")
 
     override fun run() {
         val automaton = XMLCodec().decode(File(automatonFile), null) as Automaton

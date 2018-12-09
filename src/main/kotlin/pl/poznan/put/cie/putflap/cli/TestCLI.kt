@@ -31,11 +31,6 @@ internal object TestCLI : CliktCommand(name = "test", help = "check specific cha
         .convert { Type.valueOf(it.toUpperCase()) }
         .required()
 
-    val multiple by option("-m", "--multiple", help = "generate many structures")
-        .int()
-        .default(1)
-        .validate { require(it > 0) { "number of structures must be greater than zero" } }
-
     private val inputs by argument("input", help = "names of input files")
         .multiple()
 
