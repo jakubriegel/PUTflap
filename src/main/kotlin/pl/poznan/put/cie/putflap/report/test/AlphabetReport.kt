@@ -1,5 +1,6 @@
-package pl.poznan.put.cie.putflap.report
+package pl.poznan.put.cie.putflap.report.test
 
+import pl.poznan.put.cie.putflap.report.Report
 import java.util.*
 
 class AlphabetReport (

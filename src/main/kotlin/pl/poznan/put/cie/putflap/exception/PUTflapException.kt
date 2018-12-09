@@ -6,6 +6,8 @@ class IncompatibleAutomatonException(message: String = "") : PUTflapException(
     "Given automaton cannot be used in current context. $message"
 )
 
-class TooManyNonterminalsException() : PUTflapException(
+class TooManyNonterminalsException : PUTflapException(
     "Maximal supported number of nonterminals is 25"
 )
+
+class InvalidActionException(message: String = "") : PUTflapException(message)

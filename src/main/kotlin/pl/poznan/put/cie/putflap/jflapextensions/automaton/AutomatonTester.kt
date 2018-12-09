@@ -9,12 +9,24 @@ import jflap.automata.graph.FSAEqualityChecker
 import jflap.automata.mealy.MealyMachine
 import jflap.automata.mealy.MealyTransition
 import jflap.grammar.Grammar
-import pl.poznan.put.cie.putflap.report.AlphabetReport
-import pl.poznan.put.cie.putflap.report.test.EqualityReport
+import pl.poznan.put.cie.putflap.report.test.AlphabetReport
+import pl.poznan.put.cie.putflap.report.test.EquivalenceReport
 import pl.poznan.put.cie.putflap.report.test.LambdaTransitionsReport
+import pl.poznan.put.cie.putflap.report.test.MultipleAlphabetReport
+import pl.poznan.put.cie.putflap.report.test.MultipleNondeterminismReport
 import pl.poznan.put.cie.putflap.report.test.NondeterminismReport
 
 object AutomatonTester {
+
+    fun checkNondeterminism(automatons: Array<Automaton>): MultipleNondeterminismReport {
+        val reports = Array(automatons.size) { checkNondeterminism(automatons[it]) }
+
+        return MultipleNondeterminismReport(
+            reports.all { it.deterministic },
+            reports
+        )
+    }
+
     fun checkNondeterminism(automaton: Automaton): NondeterminismReport {
         val detector = NondeterminismDetectorFactory.getDetector(automaton)
         val states = detector.getNondeterministicStates(automaton)
@@ -37,9 +49,25 @@ object AutomatonTester {
         )
     }
 
-    fun checkEqualityOfFSAs(a1: FiniteStateAutomaton, a2: FiniteStateAutomaton): EqualityReport {
+    fun checkEquivalenceOfManyFSAs(automatons: Array<FiniteStateAutomaton>): EquivalenceReport {
+        var allEquivalent = true
+        for (i in 1 until automatons.size) if (!checkEquivalenceOfTwoFSAs(automatons[0], automatons[i]).equivalent) {
+            allEquivalent = false
+            break
+        }
+
+        return EquivalenceReport(allEquivalent)
+    }
+
+    fun checkEquivalenceOfTwoFSAs(a1: FiniteStateAutomaton, a2: FiniteStateAutomaton): EquivalenceReport {
         val equal = FSAEqualityChecker().equals(a1, a2)
-        return EqualityReport(equal)
+        return EquivalenceReport(equal)
+    }
+
+    fun getAlphabets(automatons: Array<Automaton>): MultipleAlphabetReport {
+        return MultipleAlphabetReport(
+            Array(automatons.size) { getAlphabet(automatons[it]) }
+        )
     }
 
     fun getAlphabet(automaton: Automaton): AlphabetReport {
@@ -53,10 +81,19 @@ object AutomatonTester {
             }
             else -> null
         }
-        return AlphabetReport(inAlphabet.sorted().toTypedArray(), outAlphabet?.sorted()?.toTypedArray())
+        return AlphabetReport(
+            inAlphabet.sorted().toTypedArray(),
+            outAlphabet?.sorted()?.toTypedArray()
+        )
     }
 
     private val grammarAlphabetRegex = Regex("[a-z]+")
+
+    fun getAlphabets(grammars: Array<Grammar>): MultipleAlphabetReport {
+        return MultipleAlphabetReport(
+            Array(grammars.size) { getAlphabet(grammars[it]) }
+        )
+    }
 
     fun getAlphabet(grammar: Grammar): AlphabetReport {
         val alphabet = mutableSetOf<String>()
