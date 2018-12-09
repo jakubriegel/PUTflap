@@ -2,9 +2,8 @@ package pl.poznan.put.cie.putflap.report.structure.grammar
 
 import jflap.grammar.Grammar
 import pl.poznan.put.cie.putflap.report.structure.StructureReport
-import java.util.*
 
-class GrammarReport private constructor (
+data class GrammarReport internal constructor (
     val productions: Array<ProductionReport>
 ) : StructureReport() {
 
@@ -12,7 +11,19 @@ class GrammarReport private constructor (
         Array(grammar.productions.size) { ProductionReport(grammar.productions[it]) }
     )
 
-    override fun toString(): String {
-        return "GrammarReport(productions=${Arrays.toString(productions)})"
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as GrammarReport
+
+        if (!productions.contentEquals(other.productions)) return false
+
+        return true
     }
+
+    override fun hashCode(): Int {
+        return productions.contentHashCode()
+    }
+
 }

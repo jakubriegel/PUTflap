@@ -4,9 +4,10 @@ import jflap.automata.Configuration
 import jflap.automata.fsa.FSAConfiguration
 import jflap.automata.mealy.MealyConfiguration
 import jflap.automata.pda.PDAConfiguration
+import pl.poznan.put.cie.putflap.exception.IncompatibleAutomatonException
 import pl.poznan.put.cie.putflap.report.Report
 
-class StepReport private constructor(
+data class StepReport internal constructor(
     val state: Int,
     val read: String,
     val toProcess: String,
@@ -16,63 +17,40 @@ class StepReport private constructor(
     companion object {
         fun generate(configuration: Configuration): StepReport {
             return when (configuration) {
-                is FSAConfiguration -> generate(
-                    configuration
-                )
-                is MealyConfiguration -> generate(
-                    configuration
-                )
-                is PDAConfiguration -> generate(
-                    configuration
-                )
-                else -> StepReport(-1, "", "")
+                is FSAConfiguration -> StepReport(configuration)
+                is MealyConfiguration -> StepReport(configuration)
+                is PDAConfiguration -> StepReport(configuration)
+                else -> throw IncompatibleAutomatonException("Step report supports only FSA, Mealy and PDA steps")
             }
         }
-
-        private fun generate(configuration: FSAConfiguration): StepReport {
-            val read = configuration.input.subSequence(
-                configuration.input.length - configuration.unprocessedInput.length - 1,
-                configuration.input.length - configuration.unprocessedInput.length
-            ).toString()
-
-            return StepReport(
-                configuration.currentState.id,
-                read,
-                configuration.unprocessedInput
-            )
-        }
-
-        private fun generate(configuration: MealyConfiguration): StepReport {
-            val read = configuration.input.subSequence(
-                configuration.input.length - configuration.unprocessedInput.length - 1,
-                configuration.input.length - configuration.unprocessedInput.length
-            ).toString()
-
-            return StepReport(
-                configuration.currentState.id,
-                read,
-                configuration.unprocessedInput,
-                configuration.output
-            )
-        }
-
-        private fun generate(configuration: PDAConfiguration): StepReport {
-            val read = configuration.input.subSequence(
-                configuration.input.length - configuration.unprocessedInput.length - 1,
-                configuration.input.length - configuration.unprocessedInput.length
-            ).toString()
-
-            return StepReport(
-                configuration.currentState.id,
-                read,
-                configuration.unprocessedInput,
-                stack = configuration.stack.toString()
-            )
-        }
     }
 
-    override fun toString(): String {
-        return "StepReport(state=$state, read='$read', toProcess='$toProcess', currentOutput=$currentOutput, stack=$stack)"
-    }
+    constructor (configuration: FSAConfiguration): this(
+        configuration.currentState.id,
+        configuration.input.subSequence(
+            configuration.input.length - configuration.unprocessedInput.length - 1,
+            configuration.input.length - configuration.unprocessedInput.length
+        ).toString(),
+        configuration.unprocessedInput
+    )
 
+    constructor (configuration: MealyConfiguration): this(
+            configuration.currentState.id,
+            configuration.input.subSequence(
+                configuration.input.length - configuration.unprocessedInput.length - 1,
+                configuration.input.length - configuration.unprocessedInput.length
+            ).toString(),
+            configuration.unprocessedInput,
+            configuration.output
+        )
+
+    constructor (configuration: PDAConfiguration): this(
+            configuration.currentState.id,
+            configuration.input.subSequence(
+                configuration.input.length - configuration.unprocessedInput.length - 1,
+                configuration.input.length - configuration.unprocessedInput.length
+            ).toString(),
+            configuration.unprocessedInput,
+            stack = configuration.stack.toString()
+        )
 }

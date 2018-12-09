@@ -1,24 +1,31 @@
 package pl.poznan.put.cie.putflap.report.test
 
 import pl.poznan.put.cie.putflap.report.Report
-import java.util.*
 
-class LambdaTransitionsReport(
+data class LambdaTransitionsReport(
     val hasLambdaTransitions: Boolean,
     val lambdaTransitions: Array<Int>? = null
 ) : Report() {
 
-    companion object {
-        fun generate(hasLambdaTransitions: Boolean): LambdaTransitionsReport {
-            return LambdaTransitionsReport(
-                hasLambdaTransitions
-            )
-        }
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as LambdaTransitionsReport
+
+        if (hasLambdaTransitions != other.hasLambdaTransitions) return false
+        if (lambdaTransitions != null) {
+            if (other.lambdaTransitions == null) return false
+            if (!lambdaTransitions.contentEquals(other.lambdaTransitions)) return false
+        } else if (other.lambdaTransitions != null) return false
+
+        return true
     }
 
-    override fun toString(): String {
-        return "LambdaTransitionsReport(hasLambdaTransitions=$hasLambdaTransitions, lambdaTransitions=${Arrays.toString(
-            lambdaTransitions
-        )})"
+    override fun hashCode(): Int {
+        var result = hasLambdaTransitions.hashCode()
+        result = 31 * result + (lambdaTransitions?.contentHashCode() ?: 0)
+        return result
     }
+
 }

@@ -5,7 +5,7 @@ import pl.poznan.put.cie.putflap.jflapextensions.automaton.AutomatonType
 import pl.poznan.put.cie.putflap.jflapextensions.automaton.labelValue
 import pl.poznan.put.cie.putflap.report.structure.StructureReport
 
-class AutomatonReport private constructor(
+data class AutomatonReport internal constructor(
     val type: String,
     val states: Array<StateReport>,
     val transitions: Array<TransitionReport>
@@ -38,4 +38,24 @@ class AutomatonReport private constructor(
             transitions
         }.invoke()
         )
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as AutomatonReport
+
+        if (type != other.type) return false
+        if (!states.contentEquals(other.states)) return false
+        if (!transitions.contentEquals(other.transitions)) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = type.hashCode()
+        result = 31 * result + states.contentHashCode()
+        result = 31 * result + transitions.contentHashCode()
+        return result
+    }
 }

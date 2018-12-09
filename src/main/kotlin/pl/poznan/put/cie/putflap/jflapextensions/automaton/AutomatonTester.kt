@@ -44,7 +44,7 @@ object AutomatonTester {
         val lambdaTransitions = mutableListOf<Transition>()
         transitions.forEach { if (checker.isLambdaTransition(it)) lambdaTransitions.add(it) }
 
-        return LambdaTransitionsReport.generate(
+        return LambdaTransitionsReport(
             lambdaTransitions.isNotEmpty()
         )
     }

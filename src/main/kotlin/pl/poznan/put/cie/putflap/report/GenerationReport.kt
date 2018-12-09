@@ -11,7 +11,7 @@ import pl.poznan.put.cie.putflap.report.test.AlphabetReport
 import pl.poznan.put.cie.putflap.report.test.LambdaTransitionsReport
 import pl.poznan.put.cie.putflap.report.test.NondeterminismReport
 
-class GenerationReport private constructor(
+data class GenerationReport internal constructor(
     val type: String,
     val alphabet: AlphabetReport,
     val nondeterminism: NondeterminismReport?,
@@ -34,8 +34,4 @@ class GenerationReport private constructor(
         null,
         GrammarReport(grammar)
     )
-
-    override fun toString(): String {
-        return "GenerationReport(type='$type', alphabet=$alphabet, nondeterminism=$nondeterminism, lambdaTransitions=$lambdaTransitions, production=$production)"
-    }
 }

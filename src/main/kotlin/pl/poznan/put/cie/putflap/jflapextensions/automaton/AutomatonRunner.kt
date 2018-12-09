@@ -20,10 +20,10 @@ object AutomatonRunner {
     }
 
     fun runAutomaton(automaton: Automaton, input: String): RunReport {
-        if (automaton.initialState == null) return RunReport.generateWithError(
+        if (automaton.initialState == null) return RunReport(
             AutomatonType.get(automaton), input, ErrorReport.generate(ErrorReport.Companion.Error.NO_INITIAL_STATE)
         )
-        if (!AutomatonTester.checkNondeterminism(automaton).deterministic) return RunReport.generateWithError(
+        if (!AutomatonTester.checkNondeterminism(automaton).deterministic) return RunReport(
             AutomatonType.get(automaton), input, ErrorReport.generate(ErrorReport.Companion.Error.NON_DETERMINISM)
         )
 
@@ -47,6 +47,6 @@ object AutomatonRunner {
             possibleConfigurations.addAll(simulator.stepConfiguration(configuration))
         }
 
-        return RunReport.generate(AutomatonType.get(automaton), input, accepted, steps.toTypedArray())
+        return RunReport(AutomatonType.get(automaton), input, accepted, steps.toTypedArray())
     }
 }
