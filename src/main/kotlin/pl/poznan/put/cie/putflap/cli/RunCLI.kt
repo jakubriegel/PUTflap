@@ -3,11 +3,8 @@ package pl.poznan.put.cie.putflap.cli
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
-import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
-import com.github.ajalt.clikt.parameters.options.validate
-import com.github.ajalt.clikt.parameters.types.int
 import jflap.automata.Automaton
 import jflap.file.XMLCodec
 import pl.poznan.put.cie.putflap.jflapextensions.automaton.AutomatonRunner

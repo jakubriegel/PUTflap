@@ -2,7 +2,6 @@ package pl.poznan.put.cie.putflap.report
 
 import pl.poznan.put.cie.putflap.jflapextensions.automaton.AutomatonType
 import pl.poznan.put.cie.putflap.report.structure.automaton.StepReport
-import java.util.*
 
 data class RunReport internal constructor(
     val type: AutomatonType,

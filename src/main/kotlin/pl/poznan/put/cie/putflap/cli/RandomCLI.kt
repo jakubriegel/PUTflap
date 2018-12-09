@@ -16,9 +16,7 @@ import pl.poznan.put.cie.putflap.generator.AutomatonGenerator
 import pl.poznan.put.cie.putflap.generator.GrammarGenerator
 import pl.poznan.put.cie.putflap.report.GenerationReport
 import pl.poznan.put.cie.putflap.report.MultipleGenerationReport
-import pl.poznan.put.cie.putflap.report.MultipleRunReport
 import pl.poznan.put.cie.putflap.report.Report
-import pl.poznan.put.cie.putflap.report.structure.StructureReport
 import java.io.Serializable
 
 internal object RandomCLI : CliktCommand(name = "random", help = "generate random automaton") {

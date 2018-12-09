@@ -1,7 +1,6 @@
 package pl.poznan.put.cie.putflap.jflapextensions.automaton
 
 import jflap.automata.Automaton
-import org.apache.xpath.operations.Mult
 import pl.poznan.put.cie.putflap.report.ErrorReport
 import pl.poznan.put.cie.putflap.report.MultipleRunReport
 import pl.poznan.put.cie.putflap.report.RunReport

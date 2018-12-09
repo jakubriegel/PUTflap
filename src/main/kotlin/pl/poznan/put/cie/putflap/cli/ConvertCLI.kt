@@ -17,8 +17,6 @@ import pl.poznan.put.cie.putflap.exception.IncompatibleAutomatonException
 import pl.poznan.put.cie.putflap.exception.InvalidActionException
 import pl.poznan.put.cie.putflap.report.MultipleConversionReport
 import java.io.File
-import java.io.Serializable
-import java.lang.Exception
 
 internal object ConvertCLI : CliktCommand(name = "convert", help = "perform various JFLAP conversion tasks") {
 
