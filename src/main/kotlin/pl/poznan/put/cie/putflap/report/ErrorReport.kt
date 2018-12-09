@@ -1,6 +1,6 @@
 package pl.poznan.put.cie.putflap.report
 
-class ErrorReport private constructor(
+data class ErrorReport internal constructor(
     val code: Int,
     val message: String
 ) : Report() {
@@ -18,9 +18,5 @@ class ErrorReport private constructor(
                 error.name
             )
         }
-    }
-
-    override fun toInfoText(): String {
-        return "Error $code - $message\n"
     }
 }

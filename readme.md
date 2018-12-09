@@ -1,10 +1,10 @@
 # PUTflap
-PUTflap is an extension of JFLAP, which makes JFLAP features available from the command line and can report results as JSON
+PUTflap is an extension of JFLAP, which makes JFLAP features available from the command line. It can report results as JSON and is capable of performing operations on many arguments at once. PUTflap will help students and researchers with their work and also it is a foundation for developing JavaScript application, which will visualize JFLAP operations in web browser.
 
 ## features
 The aim of this project is to support full JFLAP functionality from command line. Currently only some part of it is available.
 
-Every operation provides its results as JSON file. Optionally if the result can be written as JFLAP file it can output such file.
+Every operation provides its results as a JSON file. Optionally if the result can be written as JFLAP file, it can output such file.
 
 ### current support
 #### Finite State Automaton
@@ -62,8 +62,75 @@ Gradle tasks implemented in project generate three equally capable version of PU
 **run:** `putflap.exe ARGS`
 
 ### CLI
-tba
- 
+The _command line interface_ is divided into six sections. Each of them is described below. Short description and arguments are also available from _CLI_ with `-h` flag.
+
+#### random
+generation of random automatons and grammars
+
+flags:
+* `-t` - type of structure to generate: `fsa` - finite state automaton, `moore` - Moore machine, `mealy` - Mealy machine, `regr` - regular grammar. All generated structures are deterministic.
+* `-n` - number of states
+* `-f` - number of final states. Has no effect on Mealy and Moore machines. Default = 1
+* `-m` - number of structures to generate. Default = 1
+* `-j` - write answer as json file
+
+arguments:
+* `alpahbet` - alphabet to generate automaton on. Symbols can be single or multiple letters. The generator might but does not have to use all of given symbols. For Mealy and Moore machines is a template for input and output alphabet
+
+sample usage: `./putflap random -t fsa -n 10 -f 3 a b c d e f g h`
+
+#### run
+running automatons for given inputs
+
+flags:
+* `-i` - name of file with automaton to run
+
+arguments:
+* `words` - words to run given automaton on
+
+sample usage: `./putflap run -i automaton.jff abc acb bac`
+
+#### test
+check of specific characteristics of given automatons and grammars
+
+flags:
+* `-t` - type of test to perform: `ndet` - check if automaton is deterministic, `eq` - check equivalence of two or more FSAs, `al` - retrieve alphabet of automaton or grammar
+
+arguments:
+* `inputs` - names of files with structures to test
+
+sample usage: `./putflap test -t ndet automaton_1.jff automaton_2.jff`
+
+#### word
+generation of valid words for given automatons
+
+flags:
+* `-m` - number of words to generate. Default = 1
+* `-j` - write answer as json file
+
+arguments:
+* `automatonFile` - name of file with automaton
+
+sample usage: `./putflap word automaton.jff`
+
+#### convert
+perform various conversion tasks on automaton and grammars
+
+flags:
+* `-t` - type of conversion to perform: `dfa` - FSA to deterministic FSA, `mini` - FSA to minimal FSA, `gra` - automaton to grammar, `re` - FSA to regular expression, `pda` - grammar to PDA, `fsa` - grammar to FSA, `json` - automaton or grammar as `.jff` file to `.json` file. All generated structures are deterministic.
+* `-j` - write answer as json file
+
+arguments:
+* `inputs` - names of files with structures to convert
+
+sample usage: `./putflap convert -t re -j fsa.jff`
+
+
+### smart 
+perform other task from instructions and input written in `config.json` file
+
+_not available yet_
+
 ## license
 PUTflap is distributed free of charge based on JFLAP license and CC BY-NC-SA 4.0	 
 
@@ -109,5 +176,5 @@ WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 This is a project made by Jakub Riegel and supervised by dr Krzysztof Zwierzyński from [Poznan University of Technology](https://www4.put.poznan.pl/en) .
 
 ---
-[<img src="https://yt3.ggpht.com/a-/AJLlDp0OnTj3ja34dx-_Z0-aAV9prQz2qJ1wxEKMEg=s900-mo-c-c0xffffffff-rj-k-no" width="100dp" />](https://www4.put.poznan.pl/en)
+[<img src="http://iim.put.poznan.pl/Szata/PP.gif" width="100dp" />](https://www4.put.poznan.pl/en)
 [<img src="http://www.cie.put.poznan.pl/images/nowelogo3eng.png" height="70dp"/>](http://www.cie.put.poznan.pl/index.php?lang=en)

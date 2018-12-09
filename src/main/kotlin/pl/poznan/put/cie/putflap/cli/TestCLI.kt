@@ -12,49 +12,54 @@ import jflap.automata.fsa.FiniteStateAutomaton
 import jflap.file.XMLCodec
 import jflap.grammar.Grammar
 import pl.poznan.put.cie.putflap.exception.IncompatibleAutomatonException
+import pl.poznan.put.cie.putflap.exception.InvalidActionException
 import pl.poznan.put.cie.putflap.jflapextensions.automaton.AutomatonTester
+import pl.poznan.put.cie.putflap.report.Report
 import java.io.File
 
-internal object TestCLI : CliktCommand(name = "test", help = "check specific characteristics of given automaton") {
+internal object TestCLI : CliktCommand(name = "test", help = "check of specific characteristics of given automatons and grammars") {
 
     private enum class Type {
-        NDET, LAMBDA, EQ, AL
+        NDET, EQ, AL
     }
 
-    private val type by option("-t", "--type",  help = "type of test")
+    private val type by option("-t", "--type",  help = "type of test to perform")
         .choice(*Array(Type.values().size) { Type.values()[it].name.toLowerCase() })
         .convert { Type.valueOf(it.toUpperCase()) }
         .required()
 
-    private val inputFile by argument("input", help = "name of input files")
+    private val inputs by argument("input", help = "names of files with structures to test")
         .multiple()
 
     override fun run() {
-        val testedItem = XMLCodec().decode(File(inputFile[0]), null)
+        val structures = Array(inputs.size) { XMLCodec().decode(File(inputs[it]), null) }
 
-        val report = when (type) {
-            Type.LAMBDA -> AutomatonTester.checkLambdaTransitions(testedItem as? Automaton
-                ?: throw IncompatibleAutomatonException("Only automatons can be checked for lambda transitions"))
-            Type.NDET -> AutomatonTester.checkNondeterminism(testedItem as? Automaton
-                ?: throw IncompatibleAutomatonException("Only automatons can be checked for non determinism"))
-            Type.EQ -> {
-                if (inputFile.size > 1) {
-                    val automaton2 =  XMLCodec().decode(File(inputFile[1]), null)
-                    AutomatonTester.checkEqualityOfFSAs(
-                        testedItem as? FiniteStateAutomaton
-                            ?: throw IncompatibleAutomatonException("Two FSAs expected"),
-                        automaton2 as? FiniteStateAutomaton
-                            ?: throw IncompatibleAutomatonException("Two FSAs expected"))
+        val report: Report = when {
+            structures.all { it is Automaton } -> {
+                val automatons = Array(structures.size) { structures[it] as Automaton }
+                when (type) {
+                    Type.NDET -> AutomatonTester.checkNondeterminism(automatons)
+                    Type.EQ -> {
+                        val fsa = automatons.filterIsInstance<FiniteStateAutomaton>().toTypedArray()
+                        if (fsa.size == automatons.size) {
+                            if (automatons.size > 1) AutomatonTester.checkEquivalenceOfManyFSAs(fsa)
+                            else throw IllegalArgumentException("More than one FSA expected")
+                        }
+                        else throw IncompatibleAutomatonException("Only FSAs can be tested for equivalence")
+                    }
+                    Type.AL -> AutomatonTester.getAlphabets(automatons)
                 }
-                else throw IllegalArgumentException("Two FSAs expected")
             }
-            Type.AL -> when (testedItem) {
-                is Automaton -> AutomatonTester.getAlphabet(testedItem)
-                is Grammar -> AutomatonTester.getAlphabet(testedItem)
-                else -> throw IncompatibleAutomatonException("Only automatons and grammars can be tested for alphabet")
+            structures.all { it is Grammar } -> {
+                val grammars = Array(structures.size) { structures[it] as Grammar }
+                when (type) {
+                    Type.AL -> AutomatonTester.getAlphabets(grammars)
+                    else -> throw InvalidActionException("Grammars can only be tested for alphabet")
+                }
             }
+            else -> throw IllegalArgumentException("Tests can only be performed on ")
         }
 
-        CLI.saveFile(report, "test_report")
+        CLI.saveFile(report, "test_${type.toString().toLowerCase()}_report")
     }
 }

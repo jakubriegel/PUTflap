@@ -2,8 +2,10 @@ package pl.poznan.put.cie.putflap.report.structure.automaton
 
 import pl.poznan.put.cie.putflap.report.Report
 
-data class TransitionReport (
-    val from: Int,
-    val to: Int,
-    val read: String
+data class StateReport (
+    val id: Int,
+    val name: String,
+    val label: String,
+    val x: Int,
+    val y: Int
 ) : Report()
