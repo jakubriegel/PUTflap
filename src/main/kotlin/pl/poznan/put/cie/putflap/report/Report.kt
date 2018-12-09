@@ -12,7 +12,5 @@ abstract class Report protected constructor() {
             mapper.enable(SerializationFeature.INDENT_OUTPUT)
             return mapper.writeValueAsString(report)
         }
-
     }
-
 }

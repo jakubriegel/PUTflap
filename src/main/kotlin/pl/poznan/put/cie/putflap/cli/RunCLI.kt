@@ -18,11 +18,6 @@ internal object RunCLI : CliktCommand(name = "run", help = "run given automaton 
     private val inputFile by option("-i", "--input", help = "name of value file")
         .required()
 
-    val multiple by option("-m", "--multiple", help = "generate many structures")
-        .int()
-        .default(1)
-        .validate { require(it > 0) { "number of structures must be greater than zero" } }
-
     private val words by argument(help = "value to validate")
         .multiple()
 

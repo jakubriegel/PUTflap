@@ -36,15 +36,15 @@ internal object TestCLI : CliktCommand(name = "test", help = "check specific cha
         .default(1)
         .validate { require(it > 0) { "number of structures must be greater than zero" } }
 
-    private val inputs by argument("input", help = "name of input files")
+    private val inputs by argument("input", help = "names of input files")
         .multiple()
 
     override fun run() {
-        val testedItems = Array(inputs.size) { XMLCodec().decode(File(inputs[it]), null) }
+        val structures = Array(inputs.size) { XMLCodec().decode(File(inputs[it]), null) }
 
         val report: Report = when {
-            testedItems.all { it is Automaton } -> {
-                val automatons = Array(testedItems.size) { testedItems[it] as Automaton }
+            structures.all { it is Automaton } -> {
+                val automatons = Array(structures.size) { structures[it] as Automaton }
                 when (type) {
                     Type.NDET -> AutomatonTester.checkNondeterminism(automatons)
                     Type.EQ -> {
@@ -58,8 +58,8 @@ internal object TestCLI : CliktCommand(name = "test", help = "check specific cha
                     Type.AL -> AutomatonTester.getAlphabets(automatons)
                 }
             }
-            testedItems.all { it is Grammar } -> {
-                val grammars = Array(testedItems.size) { testedItems[it] as Grammar }
+            structures.all { it is Grammar } -> {
+                val grammars = Array(structures.size) { structures[it] as Grammar }
                 when (type) {
                     Type.AL -> AutomatonTester.getAlphabets(grammars)
                     else -> throw InvalidActionException("Grammars can only be tested for alphabet")
