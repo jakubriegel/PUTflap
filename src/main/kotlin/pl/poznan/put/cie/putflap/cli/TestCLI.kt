@@ -17,18 +17,18 @@ import pl.poznan.put.cie.putflap.jflapextensions.automaton.AutomatonTester
 import pl.poznan.put.cie.putflap.report.Report
 import java.io.File
 
-internal object TestCLI : CliktCommand(name = "test", help = "check specific characteristics of given automaton") {
+internal object TestCLI : CliktCommand(name = "test", help = "check of specific characteristics of given automatons and grammars") {
 
     private enum class Type {
         NDET, EQ, AL
     }
 
-    private val type by option("-t", "--type",  help = "type of test")
+    private val type by option("-t", "--type",  help = "type of test to perform")
         .choice(*Array(Type.values().size) { Type.values()[it].name.toLowerCase() })
         .convert { Type.valueOf(it.toUpperCase()) }
         .required()
 
-    private val inputs by argument("input", help = "names of input files")
+    private val inputs by argument("input", help = "names of files with structures to test")
         .multiple()
 
     override fun run() {

@@ -18,7 +18,7 @@ import pl.poznan.put.cie.putflap.exception.InvalidActionException
 import pl.poznan.put.cie.putflap.report.MultipleConversionReport
 import java.io.File
 
-internal object ConvertCLI : CliktCommand(name = "convert", help = "perform various JFLAP conversion tasks") {
+internal object ConvertCLI : CliktCommand(name = "convert", help = "perform various conversion tasks on automaton and grammars") {
 
     private enum class Type {
         DFA, MINI, GR, RE, PDA, FSA, JSON
@@ -32,7 +32,7 @@ internal object ConvertCLI : CliktCommand(name = "convert", help = "perform vari
     private val json by option("-j", "--json", help = "write answer as json")
         .flag(default = false)
 
-    private val inputs by argument("inputs", help = "names of input files")
+    private val inputs by argument("inputs", help = "names of files with structures to convert")
         .multiple()
 
     override fun run() {

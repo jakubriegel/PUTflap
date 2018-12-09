@@ -19,13 +19,13 @@ import pl.poznan.put.cie.putflap.report.MultipleGenerationReport
 import pl.poznan.put.cie.putflap.report.Report
 import java.io.Serializable
 
-internal object RandomCLI : CliktCommand(name = "random", help = "generate random automaton") {
+internal object RandomCLI : CliktCommand(name = "random", help = "generation of random automatons and grammars") {
 
     private enum class Type {
         FSA, MOORE, MEALY, REGR
     }
 
-    private val type by option("-t", "--type",  help = "type of automaton to generate")
+    private val type by option("-t", "--type",  help = "type of structure to generate")
         .choice(*Array(Type.values().size) { Type.values()[it].name.toLowerCase() })
         .convert { Type.valueOf(it.toUpperCase()) }
         .required()
@@ -33,19 +33,19 @@ internal object RandomCLI : CliktCommand(name = "random", help = "generate rando
     private val n by option("-n", help = "number of states")
         .int()
         .required()
+        .validate { require(it > 0) { "number of states must be greater than zero" } }
 
     private val finals by option("-f", "--finals", help = "number of final states[default=1]")
         .int()
         .default(1)
+        .validate { require(it > 0) { "number of final states must be greater than zero" } }
 
-    val output by option("-o", "--output", help = "name of output file")
-
-    val multiple by option("-m", "--multiple", help = "generate many structures")
+    val multiple by option("-m", "--multiple", help = "number of structures to generate [default=1]")
         .int()
         .default(1)
         .validate { require(it > 0) { "number of structures must be greater than zero" } }
 
-    private val json by option("-j", "--json", help = "write answer as json")
+    private val json by option("-j", "--json", help = "write answer as json file")
         .flag(default = false)
 
     private val alphabet by argument(help = "alphabet to generate automaton on") // TODO: add possibility to specify output alphabet
@@ -78,6 +78,6 @@ internal object RandomCLI : CliktCommand(name = "random", help = "generate rando
             Type.REGR -> GrammarGenerator(n, finals, alphabet.toTypedArray()).randomRegular()
         }
 
-        CLI.saveFile(result, output ?: "new_${type.name.toLowerCase()}", json)
+        CLI.saveFile(result, "new_${type.name.toLowerCase()}", json)
     }
 }

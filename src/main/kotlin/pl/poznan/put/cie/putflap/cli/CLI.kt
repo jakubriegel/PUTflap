@@ -9,8 +9,10 @@ import java.io.Serializable
 
 object CLI : CliktCommand(
     name = "putflap",
-    help = "an extension of JFLAP" +
-            "\n\nTHIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE."
+    help = "PUTflap is an extension of JFLAP, which makes JFLAP features available from the command line. It can report results as JSON and is capable of performing operations on many arguments at once." +
+            "\n\n Detailed help is available with putflap COMMAND -h" +
+            "\n\nFor source and documentation check: github.com/jakubriegel/PUTflap" +
+            "\n\nTHIS SOFTWARE IS PROVIDED ''AS IS'' AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE."
 ) {
     override fun run() = Unit
 

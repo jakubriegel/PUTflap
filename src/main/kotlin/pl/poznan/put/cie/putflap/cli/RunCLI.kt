@@ -10,12 +10,12 @@ import jflap.file.XMLCodec
 import pl.poznan.put.cie.putflap.jflapextensions.automaton.AutomatonRunner
 import java.io.File
 
-internal object RunCLI : CliktCommand(name = "run", help = "run given automaton for given value") {
+internal object RunCLI : CliktCommand(name = "run", help = "running automatons for given inputs") {
 
-    private val inputFile by option("-i", "--input", help = "name of value file")
+    private val inputFile by option("-i", "--input", help = "name of file with automaton to run")
         .required()
 
-    private val words by argument(help = "value to validate")
+    private val words by argument(help = "words to run given automaton on")
         .multiple()
 
     override fun run() {
