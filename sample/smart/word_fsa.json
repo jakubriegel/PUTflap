@@ -1,5 +1,5 @@
 {
-  "instruction": "run",
+  "instruction": "word",
   "parameters": {
     "multiple": 500,
     "inputs": [

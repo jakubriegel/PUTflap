@@ -1,5 +1,5 @@
 {
-  "instruction": "run",
+  "instruction": "random",
   "parameters": {
     "type": "fsa",
     "n": 10,
