@@ -196,7 +196,7 @@ object AutomatonConverter {
 
     fun toJSON(automaton: Automaton): Pair<ConversionReport, Automaton> {
         return Pair(ConversionReport(
-            AutomatonType.get(automaton).toString(), "grammar", true, AutomatonReport(automaton)),
+            AutomatonType.get(automaton).toString(), "JSON", true, AutomatonReport.generate(automaton)),
             automaton
         )
     }
@@ -216,7 +216,7 @@ object AutomatonConverter {
 
     fun toJSON(grammar: Grammar): Pair<ConversionReport, Grammar> {
         return Pair(ConversionReport(
-            "grammar", "grammar", true, GrammarReport(grammar)),
+            "grammar", "JSON", true, GrammarReport(grammar)),
             grammar
         )
     }

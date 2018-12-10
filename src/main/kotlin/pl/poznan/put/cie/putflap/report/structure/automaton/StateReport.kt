@@ -7,5 +7,6 @@ data class StateReport (
     val name: String,
     val label: String,
     val x: Int,
-    val y: Int
+    val y: Int,
+    val value: String? = null
 ) : Report()
