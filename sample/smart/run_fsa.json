@@ -1,0 +1,50 @@
+{
+  "instruction": "run",
+  "source": [
+    {
+      "type" : "FA",
+      "states" : [ {
+        "id" : 3,
+        "name" : "q2",
+        "label" : "",
+        "x" : 71,
+        "y" : 147
+      }, {
+        "id" : 0,
+        "name" : "q0",
+        "label" : "",
+        "x" : 130,
+        "y" : 50
+      }, {
+        "id" : 2,
+        "name" : "q1",
+        "label" : "",
+        "x" : 225,
+        "y" : 141
+      } ],
+      "transitions" : [ {
+        "from" : 3,
+        "to" : 3,
+        "read" : "a"
+      }, {
+        "from" : 0,
+        "to" : 2,
+        "read" : "c"
+      }, {
+        "from" : 2,
+        "to" : 0,
+        "read" : "b"
+      }, {
+        "from" : 0,
+        "to" : 3,
+        "read" : "a"
+      } ]
+    }
+  ],
+  "input": {
+    "words": [
+      "cba", "cbcbaaa", "a", "cbcbcbcba", "aa", "aaa", "cbaa", "cbcbaa", "cbcbcbaa", "aaaa", "cbcba", "aaaaa", "cbaaaaa", "cbcbcbcbcbaa", "cbcbcbcbaa", "cbcbcbcbcbaaaa", "cbcbcba", "cbcbcbcbcbcba", "cbcbcbcbcbaaa", "cbcbcbaaa", "cbaaa", "cbcbcbcbcbcbaaa", "cbcbcbcbcbaaaaa", "aaaaaa", "cbaaaa", "cbcbaaaaaa", "cbcbcbaaaaaa", "cbcbcbcbcba", "cbcbaaaa", "cbcbcbcbaaa", "cbcbcbcbaaaa", "cbaaaaaaa", "cbcbcbaaaa", "cbcbcbcbcbcbcbaa", "cbcbaaaaa", "cbcbcbcbaaaaaa", "aaaaaaaa", "cbcbcbcbcbcbcbcbaa", "cbcbcbaaaaa", "cbcbcbcbaaaaaaa", "cbcbaaaaaaaaaa", "cbcbaaaaaaa", "cbcbcbcbcbcbcbcbaaaaaa", "cbaaaaaaaa",
+      "invalid", "another", "aaaaax", "more"
+    ]
+  }
+}

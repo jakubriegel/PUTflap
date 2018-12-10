@@ -9,6 +9,7 @@ import jflap.automata.pda.PDATransition
 import jflap.automata.pda.PushdownAutomaton
 import pl.poznan.put.cie.putflap.exception.IncompatibleAutomatonException
 import pl.poznan.put.cie.putflap.jflapextensions.automaton.AutomatonType
+import pl.poznan.put.cie.putflap.jflapextensions.automaton.StateType
 import pl.poznan.put.cie.putflap.jflapextensions.automaton.labelValue
 import pl.poznan.put.cie.putflap.report.structure.StructureReport
 
@@ -37,6 +38,7 @@ data class AutomatonReport internal constructor(
                     list[it].id,
                     list[it].name,
                     list[it].label ?: "",
+                    StateType.get(list[it], automaton),
                     list[it].point.x,
                     list[it].point.y
                 )
@@ -65,6 +67,7 @@ data class AutomatonReport internal constructor(
                     list[it].id,
                     list[it].name,
                     list[it].label ?: "",
+                    StateType.get(list[it], automaton),
                     list[it].point.x,
                     list[it].point.y,
                     value = automaton.getOutput(list[it])
@@ -94,6 +97,7 @@ data class AutomatonReport internal constructor(
                     list[it].id,
                     list[it].name,
                     list[it].label ?: "",
+                    StateType.get(list[it], automaton),
                     list[it].point.x,
                     list[it].point.y
                 )
@@ -123,6 +127,7 @@ data class AutomatonReport internal constructor(
                     list[it].id,
                     list[it].name,
                     list[it].label ?: "",
+                    StateType.get(list[it], automaton),
                     list[it].point.x,
                     list[it].point.y
                 )
