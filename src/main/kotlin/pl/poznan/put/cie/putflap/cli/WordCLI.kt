@@ -18,7 +18,7 @@ import java.io.File
 
 internal object WordCLI : CliktCommand(name = "word", help = "generate valid word for given automaton") {
 
-    val multiple by option("-m", "--multiple", help = "number of words to generate [default=1]")
+    private val multiple by option("-m", "--multiple", help = "number of words to generate [default=1]")
         .int()
         .default(1)
         .validate { require(it > 0) { "number of structures must be greater than zero" } }
@@ -28,16 +28,5 @@ internal object WordCLI : CliktCommand(name = "word", help = "generate valid wor
 
     private val automatonFile by argument(help = "name of file with automaton")
 
-    override fun run() {
-        val automaton = XMLCodec().decode(File(automatonFile), null) as Automaton
-        val report: WordsReport = when(automaton) {
-            is FiniteStateAutomaton -> WordGenerator.randomWords(automaton, multiple)
-            is MealyMachine /* also Moore */ -> WordGenerator.randomWords(automaton, multiple)
-            is PushdownAutomaton -> WordGenerator.randomWords(automaton, multiple)
-            else -> TODO("implement word generation for all automatons")
-        }
-
-        if (json) CLI.saveFile(report, "words")
-        else for (word in report.words) echo(word)
-    }
+    override fun run() = Commands.word(multiple, json, automatonFile)
 }

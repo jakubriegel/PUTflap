@@ -18,10 +18,5 @@ internal object RunCLI : CliktCommand(name = "run", help = "running automatons f
     private val words by argument(help = "words to run given automaton on")
         .multiple()
 
-    override fun run() {
-        val automaton = XMLCodec().decode(File(inputFile), null) as Automaton
-        val report = AutomatonRunner.runAutomaton(automaton, words.toTypedArray())
-        CLI.saveFile(report, "run_report")
-    }
-
+    override fun run() = Commands.run(inputFile, words.toTypedArray())
 }

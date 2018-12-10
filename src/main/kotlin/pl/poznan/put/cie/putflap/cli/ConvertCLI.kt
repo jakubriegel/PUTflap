@@ -20,13 +20,9 @@ import java.io.File
 
 internal object ConvertCLI : CliktCommand(name = "convert", help = "perform various conversion tasks on automaton and grammars") {
 
-    private enum class Type {
-        DFA, MINI, GR, RE, PDA, FSA, JSON
-    }
-
     private val type by option("-t", "--type",  help = "type of conversion to perform")
-        .choice(*Array(Type.values().size) { Type.values()[it].name.toLowerCase() })
-        .convert { Type.valueOf(it.toUpperCase()) }
+        .choice(*Array(Types.ConvertType.values().size) { Types.ConvertType.values()[it].name.toLowerCase() })
+        .convert { Types.ConvertType.valueOf(it.toUpperCase()) }
         .required()
 
     private val json by option("-j", "--json", help = "write answer as json")
@@ -35,47 +31,7 @@ internal object ConvertCLI : CliktCommand(name = "convert", help = "perform vari
     private val inputs by argument("inputs", help = "names of files with structures to convert")
         .multiple()
 
-    override fun run() {
-        val structures = Array(inputs.size) { XMLCodec().decode(File(inputs[it]), null) }
-        val conversion: Pair<MultipleConversionReport, Array<*>> = when {
-            structures.all { it is Automaton } -> {
-                val automatons = Array(structures.size) { structures[it] as Automaton }
-                when (type) {
-                    Type.GR -> AutomatonConverter.toGrammar(automatons)
-                    Type.JSON ->  AutomatonConverter.toJSON(automatons)
-                    else -> when {
-                        automatons.all { it is FiniteStateAutomaton } -> {
-                            val fsa = automatons.filterIsInstance<FiniteStateAutomaton>().toTypedArray()
-                            when (type) {
-                                Type.DFA -> AutomatonConverter.toDeterministicFSA(fsa)
-                                Type.MINI -> AutomatonConverter.toMinimalFSA(fsa)
-                                Type.RE -> AutomatonConverter.toRegularExpression(fsa)
-                                else -> throw Exception()
-                            }
-                        }
-                        else -> throw IncompatibleAutomatonException()
-                    }
-                }
-            }
-            structures.all { it is Grammar } -> {
-                val grammars = Array(structures.size) { structures[it] as Grammar }
-                when (type) {
-                    Type.PDA -> TODO("implement conversion from grammar to PDA")
-                    Type.FSA -> AutomatonConverter.toFSA(grammars)
-                    Type.JSON -> AutomatonConverter.toJSON(grammars)
-                    else -> throw InvalidActionException("Grammars can only be converted to PDA, FSA or JSON")
-                }
-            }
-            else -> throw IllegalArgumentException("Tests can only be performed on ")
-        }
-
-        if (type == Type.RE && !json) for (regex in conversion.second) echo(regex)
-        else CLI.saveFile(
-            conversion,
-            "converted_${type.name.toLowerCase()}",
-            if (type == Type.JSON) true else json
-        )
-    }
+    override fun run() = Commands.convert(type, json, inputs.toTypedArray())
 
 
 
