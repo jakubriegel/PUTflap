@@ -1,5 +1,7 @@
 {
   "instruction": "run",
-  "sourcePath": "fsa.jff",
-  "inputPath": "words.json"
+  "parameters": {
+    "inputPath": ["fsa_simple.jff"],
+    "wordsPath": "words.json"
+  }
 }
