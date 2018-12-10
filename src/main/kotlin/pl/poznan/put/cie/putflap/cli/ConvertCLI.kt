@@ -69,8 +69,12 @@ internal object ConvertCLI : CliktCommand(name = "convert", help = "perform vari
             else -> throw IllegalArgumentException("Tests can only be performed on ")
         }
 
-        if (type == Type.RE) for (regex in conversion.second) echo(regex)
-        else CLI.saveFile(conversion, "converted_${type.name.toLowerCase()}", json)
+        if (type == Type.RE && !json) for (regex in conversion.second) echo(regex)
+        else CLI.saveFile(
+            conversion,
+            "converted_${type.name.toLowerCase()}",
+            if (type == Type.JSON) true else json
+        )
     }
 
 

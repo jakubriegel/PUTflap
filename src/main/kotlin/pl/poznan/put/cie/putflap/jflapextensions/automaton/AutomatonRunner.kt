@@ -13,7 +13,7 @@ object AutomatonRunner {
         val runs = Array(input.size) { runAutomaton(automaton, input[it]) }
 
         return MultipleRunReport(
-            AutomatonReport(automaton),
+            AutomatonReport.generate(automaton),
             runs
         )
     }

@@ -40,7 +40,7 @@ internal object RandomCLI : CliktCommand(name = "random", help = "generation of 
         .default(1)
         .validate { require(it > 0) { "number of final states must be greater than zero" } }
 
-    val multiple by option("-m", "--multiple", help = "number of structures to generate [default=1]")
+    private val multiple by option("-m", "--multiple", help = "number of structures to generate [default=1]")
         .int()
         .default(1)
         .validate { require(it > 0) { "number of structures must be greater than zero" } }

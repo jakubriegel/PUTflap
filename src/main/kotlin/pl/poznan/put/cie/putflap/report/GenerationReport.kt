@@ -15,7 +15,6 @@ data class GenerationReport internal constructor(
     val type: String,
     val alphabet: AlphabetReport,
     val nondeterminism: NondeterminismReport?,
-    val lambdaTransitions: LambdaTransitionsReport?,
     val production: StructureReport
 ) : Report() {
 
@@ -23,14 +22,12 @@ data class GenerationReport internal constructor(
         AutomatonType.get(automaton).toString(),
         AutomatonTester.getAlphabet(automaton),
         AutomatonTester.checkNondeterminism(automaton),
-        AutomatonTester.checkLambdaTransitions(automaton),
-        AutomatonReport(automaton)
+        AutomatonReport.generate(automaton)
     )
 
     constructor(grammar: Grammar) : this(
         "grammar",
         AutomatonTester.getAlphabet(grammar),
-        null,
         null,
         GrammarReport(grammar)
     )
