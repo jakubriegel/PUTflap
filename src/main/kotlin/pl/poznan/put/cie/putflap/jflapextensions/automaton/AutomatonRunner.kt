@@ -18,7 +18,7 @@ object AutomatonRunner {
         )
     }
 
-    fun runAutomaton(automaton: Automaton, input: String): RunReport {
+    private fun runAutomaton(automaton: Automaton, input: String): RunReport {
         if (automaton.initialState == null) return RunReport(
             AutomatonType.get(automaton), input, ErrorReport.generate(ErrorReport.Companion.Error.NO_INITIAL_STATE)
         )
@@ -31,8 +31,7 @@ object AutomatonRunner {
         val possibleConfigurations = simulator.stepConfiguration(initialConfiguration)
 
         var accepted = false
-        val steps = mutableListOf<StepReport>()
-        // TODO: implement adding initial step to steps
+        val steps = mutableListOf(StepReport.initial(automaton, input))
 
         while (possibleConfigurations.isNotEmpty()) {
             val configuration = possibleConfigurations.removeAt(0)
