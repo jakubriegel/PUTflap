@@ -7,15 +7,6 @@ import com.github.ajalt.clikt.parameters.options.convert
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.choice
-import jflap.automata.Automaton
-import jflap.automata.fsa.FiniteStateAutomaton
-import jflap.file.XMLCodec
-import jflap.grammar.Grammar
-import pl.poznan.put.cie.putflap.exception.IncompatibleAutomatonException
-import pl.poznan.put.cie.putflap.exception.InvalidActionException
-import pl.poznan.put.cie.putflap.jflapextensions.automaton.AutomatonTester
-import pl.poznan.put.cie.putflap.report.Report
-import java.io.File
 
 internal object TestCLI : CliktCommand(name = "test", help = "check of specific characteristics of given automatons and grammars") {
     

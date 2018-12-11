@@ -12,12 +12,6 @@ import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.options.validate
 import com.github.ajalt.clikt.parameters.types.choice
 import com.github.ajalt.clikt.parameters.types.int
-import pl.poznan.put.cie.putflap.generator.AutomatonGenerator
-import pl.poznan.put.cie.putflap.generator.GrammarGenerator
-import pl.poznan.put.cie.putflap.report.GenerationReport
-import pl.poznan.put.cie.putflap.report.MultipleGenerationReport
-import pl.poznan.put.cie.putflap.report.Report
-import java.io.Serializable
 
 internal object RandomCLI : CliktCommand(name = "random", help = "generation of random automatons and grammars") {
 
@@ -44,7 +38,7 @@ internal object RandomCLI : CliktCommand(name = "random", help = "generation of 
     private val json by option("-j", "--json", help = "write answer as json file")
         .flag(default = false)
 
-    private val alphabet by argument(help = "alphabet to generate automaton on") // TODO: add possibility to specify output alphabet
+    private val alphabet by argument(help = "alphabet to generate automaton on")
         .multiple()
         .validate { require(it.isNotEmpty()) { "alphabet must be supplied"} }
 

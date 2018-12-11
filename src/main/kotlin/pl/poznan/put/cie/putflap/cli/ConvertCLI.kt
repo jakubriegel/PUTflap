@@ -8,15 +8,6 @@ import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.choice
-import jflap.automata.Automaton
-import jflap.automata.fsa.FiniteStateAutomaton
-import jflap.file.XMLCodec
-import jflap.grammar.Grammar
-import pl.poznan.put.cie.putflap.converter.AutomatonConverter
-import pl.poznan.put.cie.putflap.exception.IncompatibleAutomatonException
-import pl.poznan.put.cie.putflap.exception.InvalidActionException
-import pl.poznan.put.cie.putflap.report.MultipleConversionReport
-import java.io.File
 
 internal object ConvertCLI : CliktCommand(name = "convert", help = "perform various conversion tasks on automaton and grammars") {
 

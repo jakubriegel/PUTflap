@@ -1,7 +1,7 @@
 {
   "instruction": "random",
   "parameters": {
-    "type": "fsa",
+    "type": "FSA",
     "n": 10,
     "finals": 3,
     "multiple": 30,

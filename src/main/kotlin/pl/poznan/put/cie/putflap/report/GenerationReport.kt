@@ -8,7 +8,6 @@ import pl.poznan.put.cie.putflap.report.structure.StructureReport
 import pl.poznan.put.cie.putflap.report.structure.automaton.AutomatonReport
 import pl.poznan.put.cie.putflap.report.structure.grammar.GrammarReport
 import pl.poznan.put.cie.putflap.report.test.AlphabetReport
-import pl.poznan.put.cie.putflap.report.test.LambdaTransitionsReport
 import pl.poznan.put.cie.putflap.report.test.NondeterminismReport
 
 data class GenerationReport internal constructor(

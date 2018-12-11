@@ -16,9 +16,9 @@ object CLI : CliktCommand(
 ) {
     override fun run() = Unit
 
-    private val subs = listOf(RandomCLI, RunCLI, TestCLI, WordCLI, ConvertCLI)
-    fun init(args: Array<String>) = subcommands(subs).main(args)
+    private val subs = listOf(RandomCLI, RunCLI, TestCLI, WordCLI, ConvertCLI, SmartCLI)
 
+    fun init(args: Array<String>) = subcommands(subs).main(args)
 
     internal fun saveFile(result: Pair<Report, Serializable>, filename: String, json: Boolean) {
         val file = File("$filename${if (json) ".json" else ".jff"}")

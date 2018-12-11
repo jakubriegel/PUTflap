@@ -8,18 +8,21 @@
           "id" : 3,
           "name" : "q2",
           "label" : "",
+          "type" : "FINAL",
           "x" : 71,
           "y" : 147
         }, {
           "id" : 0,
           "name" : "q0",
           "label" : "",
+          "type" : "INITIAL",
           "x" : 130,
           "y" : 50
         }, {
           "id" : 2,
           "name" : "q1",
           "label" : "",
+          "type" : "STATE",
           "x" : 225,
           "y" : 141
         } ],
