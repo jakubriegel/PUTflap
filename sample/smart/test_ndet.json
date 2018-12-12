@@ -1,7 +1,7 @@
 {
   "instruction": "test",
   "parameters": {
-    "type": "ndet",
+    "type": "NDET",
     "inputs": [
       {
         "type" : "FA",

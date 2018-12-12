@@ -1,9 +1,9 @@
 {
   "instruction": "convert",
   "parameters": {
-    "type": "fsa",
+    "type": "FSA",
     "json": true,
-    "inputs": [
+    "input": [
       {
         "type" : "grammar",
         "productions" : [ {
