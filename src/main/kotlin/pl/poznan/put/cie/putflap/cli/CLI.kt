@@ -2,6 +2,7 @@ package pl.poznan.put.cie.putflap.cli
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.subcommands
+import com.github.ajalt.clikt.parameters.options.versionOption
 import jflap.file.XMLCodec
 import pl.poznan.put.cie.putflap.report.Report
 import java.io.File
@@ -14,6 +15,11 @@ object CLI : CliktCommand(
             "\n\nFor source and documentation check: github.com/jakubriegel/PUTflap" +
             "\n\nTHIS SOFTWARE IS PROVIDED ''AS IS'' AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE."
 ) {
+
+    init {
+        versionOption("alpha")
+    }
+
     override fun run() = Unit
 
     private val subs = listOf(RandomCLI, RunCLI, TestCLI, WordCLI, ConvertCLI, SmartCLI)
