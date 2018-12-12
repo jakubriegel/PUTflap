@@ -11,7 +11,7 @@ data class NondeterminismReport internal constructor(
 
     constructor(deterministic: Boolean, nonDeterministicStates: Array<State>, lambdaTransitionsReport: LambdaTransitionsReport) : this(
         deterministic,
-        Array(nonDeterministicStates.size) { nonDeterministicStates[it].id },
+        if (nonDeterministicStates.isEmpty()) null else Array(nonDeterministicStates.size) { nonDeterministicStates[it].id },
         lambdaTransitionsReport
     )
 
