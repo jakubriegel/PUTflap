@@ -7,6 +7,7 @@ data class RandomParameters (
     val n: Int,
     val finals: Int,
     val multiple: Int,
+    val json: Boolean,
     val alphabet: Array<String>
 ) : SmartParameters() {
     override fun equals(other: Any?): Boolean {

@@ -37,7 +37,7 @@ class Smart (
                     parameters.n,
                     parameters.finals,
                     parameters.multiple,
-                    true,
+                    parameters.json,
                     parameters.alphabet
                 )
             }
