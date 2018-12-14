@@ -10,16 +10,27 @@ import pl.poznan.put.cie.putflap.jflapextensions.automaton.labelValue
 import pl.poznan.put.cie.putflap.report.WordsReport
 import java.util.*
 
+/**
+ * Implements generation of random, valid words for automatons
+ */
 object WordGenerator {
     private const val p = .5
     private const val LAMBDA = ""
 
+    /**
+     * Generates [n] random, valid words for specified [automaton]. The number of generated words may be equal or smaller than [n]
+     */
     fun randomWords(automaton: Automaton, n: Int = 0): WordsReport {
         val words = mutableSetOf<String>()
         var sinceLastNew = 0
         val maxSinceLastNew = getMaxSinceLastNew(automaton.transitions.size)
         while (words.size < n && sinceLastNew < maxSinceLastNew) {
-            val word = randomWord(automaton)
+            val word = when (automaton) {
+                is FiniteStateAutomaton -> randomWord(automaton)
+                is MealyMachine /* also Moore */ -> randomWord(automaton)
+                is PushdownAutomaton -> randomWord(automaton)
+                else -> TODO("implement word generation for all automatons")
+            }
 
             if (words.add(word)) sinceLastNew = 0
             else sinceLastNew++
@@ -32,25 +43,7 @@ object WordGenerator {
         )
     }
 
-    fun randomWords(automaton: PushdownAutomaton, n: Int = 0): WordsReport {
-        val words = mutableSetOf<String>()
-        var sinceLastNew = 0
-        val maxSinceLastNew = getMaxSinceLastNew(automaton.transitions.size)
-        while (words.size < n && sinceLastNew < maxSinceLastNew) {
-            val word = randomWord(automaton)
-
-            if (words.add(word)) sinceLastNew = 0
-            else sinceLastNew++
-        }
-
-        return WordsReport(
-            n,
-            words.size,
-            words.toTypedArray()
-        )
-    }
-
-    fun randomWord(automaton: Automaton): String {
+    private fun randomWord(automaton: Automaton): String {
         var word = ""
         var currentState = getStartState(automaton)
 
@@ -74,7 +67,7 @@ object WordGenerator {
         return word
     }
 
-    fun randomWord(automaton: PushdownAutomaton): String {
+    private fun randomWord(automaton: PushdownAutomaton): String {
         var word = ""
         var currentState = getStartState(automaton)
         val stack = LinkedList<String>()

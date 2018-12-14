@@ -6,6 +6,9 @@ import jflap.automata.mealy.MealyMachine
 import jflap.automata.mealy.MooreMachine
 import jflap.automata.pda.PushdownAutomaton
 
+/**
+ * Stores all possible types of automatons
+ */
 enum class AutomatonType {
     FA, MOORE, MEALY, PDA, TURING, TURING_MT, TURING_BB, UNKNOWN;
 

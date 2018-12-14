@@ -1,0 +1,73 @@
+{
+	"type" : "MOORE",
+	"states" : [ {
+		"id" : 0,
+		"name" : "q0",
+		"label" : "",
+		"type" : "INITIAL",
+		"x" : 109,
+		"y" : 66,
+		"value" : "f"
+	}, {
+		"id" : 1,
+		"name" : "q1",
+		"label" : "",
+		"type" : "STATE",
+		"x" : 230,
+		"y" : 66,
+		"value" : "c"
+	}, {
+		"id" : 2,
+		"name" : "q2",
+		"label" : "",
+		"type" : "STATE",
+		"x" : 290,
+		"y" : 170,
+		"value" : "i"
+	}, {
+		"id" : 4,
+		"name" : "q4",
+		"label" : "",
+		"type" : "STATE",
+		"x" : 110,
+		"y" : 273,
+		"value" : "e"
+	}, {
+		"id" : 5,
+		"name" : "q5",
+		"label" : "",
+		"type" : "STATE",
+		"x" : 50,
+		"y" : 170,
+		"value" : "d"
+	}, {
+		"id" : 3,
+		"name" : "q3",
+		"label" : "",
+		"type" : "STATE",
+		"x" : 230,
+		"y" : 273,
+		"value" : "e"
+	} ],
+	"transitions" : [ {
+		"from" : 4,
+		"to" : 5,
+		"read" : "f"
+	}, {
+		"from" : 3,
+		"to" : 4,
+		"read" : "e"
+	}, {
+		"from" : 3,
+		"to" : 2,
+		"read" : "i"
+	}, {
+		"from" : 0,
+		"to" : 1,
+		"read" : "j"
+	}, {
+		"from" : 0,
+		"to" : 3,
+		"read" : "b"
+	} ]
+}

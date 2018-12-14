@@ -7,6 +7,8 @@ data class GrammarReport internal constructor (
     val productions: Array<ProductionReport>
 ) : StructureReport() {
 
+    val type = "grammar"
+
     constructor(grammar: Grammar) : this (
         Array(grammar.productions.size) { ProductionReport(grammar.productions[it]) }
     )

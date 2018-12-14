@@ -1,5 +1,6 @@
 package pl.poznan.put.cie.putflap.report.structure.automaton
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jflap.automata.Automaton
 import jflap.automata.fsa.FiniteStateAutomaton
 import jflap.automata.mealy.MealyMachine
@@ -9,8 +10,10 @@ import jflap.automata.pda.PDATransition
 import jflap.automata.pda.PushdownAutomaton
 import pl.poznan.put.cie.putflap.exception.IncompatibleAutomatonException
 import pl.poznan.put.cie.putflap.jflapextensions.automaton.AutomatonType
+import pl.poznan.put.cie.putflap.jflapextensions.automaton.StateType
 import pl.poznan.put.cie.putflap.jflapextensions.automaton.labelValue
 import pl.poznan.put.cie.putflap.report.structure.StructureReport
+import kotlin.reflect.KClass
 
 data class AutomatonReport internal constructor(
     val type: AutomatonType,
@@ -37,6 +40,7 @@ data class AutomatonReport internal constructor(
                     list[it].id,
                     list[it].name,
                     list[it].label ?: "",
+                    StateType.get(list[it], automaton),
                     list[it].point.x,
                     list[it].point.y
                 )
@@ -65,6 +69,7 @@ data class AutomatonReport internal constructor(
                     list[it].id,
                     list[it].name,
                     list[it].label ?: "",
+                    StateType.get(list[it], automaton),
                     list[it].point.x,
                     list[it].point.y,
                     value = automaton.getOutput(list[it])
@@ -94,6 +99,7 @@ data class AutomatonReport internal constructor(
                     list[it].id,
                     list[it].name,
                     list[it].label ?: "",
+                    StateType.get(list[it], automaton),
                     list[it].point.x,
                     list[it].point.y
                 )
@@ -123,6 +129,7 @@ data class AutomatonReport internal constructor(
                     list[it].id,
                     list[it].name,
                     list[it].label ?: "",
+                    StateType.get(list[it], automaton),
                     list[it].point.x,
                     list[it].point.y
                 )
@@ -144,6 +151,18 @@ data class AutomatonReport internal constructor(
             transitions
         }.invoke()
     )
+
+    @JsonIgnore
+    fun getAutomatonClass(): KClass<out Automaton> = when (type) {
+        AutomatonType.FA -> FiniteStateAutomaton::class
+        AutomatonType.MOORE -> MooreMachine::class
+        AutomatonType.MEALY -> MealyMachine::class
+        AutomatonType.PDA -> PushdownAutomaton::class
+        AutomatonType.TURING -> TODO()
+        AutomatonType.TURING_MT -> TODO()
+        AutomatonType.TURING_BB -> TODO()
+        AutomatonType.UNKNOWN -> throw IllegalArgumentException("Invalid automaton type")
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

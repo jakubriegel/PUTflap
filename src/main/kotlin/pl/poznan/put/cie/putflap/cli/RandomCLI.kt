@@ -12,22 +12,12 @@ import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.options.validate
 import com.github.ajalt.clikt.parameters.types.choice
 import com.github.ajalt.clikt.parameters.types.int
-import pl.poznan.put.cie.putflap.generator.AutomatonGenerator
-import pl.poznan.put.cie.putflap.generator.GrammarGenerator
-import pl.poznan.put.cie.putflap.report.GenerationReport
-import pl.poznan.put.cie.putflap.report.MultipleGenerationReport
-import pl.poznan.put.cie.putflap.report.Report
-import java.io.Serializable
 
 internal object RandomCLI : CliktCommand(name = "random", help = "generation of random automatons and grammars") {
 
-    private enum class Type {
-        FSA, MOORE, MEALY, REGR
-    }
-
     private val type by option("-t", "--type",  help = "type of structure to generate")
-        .choice(*Array(Type.values().size) { Type.values()[it].name.toLowerCase() })
-        .convert { Type.valueOf(it.toUpperCase()) }
+        .choice(*Array(Types.RandomType.values().size) { Types.RandomType.values()[it].name.toLowerCase() })
+        .convert { Types.RandomType.valueOf(it.toUpperCase()) }
         .required()
 
     private val n by option("-n", help = "number of states")
@@ -48,36 +38,10 @@ internal object RandomCLI : CliktCommand(name = "random", help = "generation of 
     private val json by option("-j", "--json", help = "write answer as json file")
         .flag(default = false)
 
-    private val alphabet by argument(help = "alphabet to generate automaton on") // TODO: add possibility to specify output alphabet
+    private val alphabet by argument(help = "alphabet to generate automaton on")
         .multiple()
         .validate { require(it.isNotEmpty()) { "alphabet must be supplied"} }
 
 
-    override fun run() {
-
-        val result: Pair<Report, Serializable> = if (multiple > 1) {
-            val results = mutableListOf<Pair<GenerationReport, Serializable>>()
-            for (i in 0 until multiple) {
-                results.add(when (type) {
-                    Type.FSA -> AutomatonGenerator(n, alphabet.toTypedArray(), finalStates = finals).randomFSA()
-                    Type.MEALY -> AutomatonGenerator(n, alphabet.toTypedArray(), outputAlphabet = alphabet.toTypedArray()).randomMealy()
-                    Type.MOORE -> AutomatonGenerator(n, alphabet.toTypedArray(), outputAlphabet = alphabet.toTypedArray()).randomMoore()
-                    Type.REGR -> GrammarGenerator(n, finals, alphabet.toTypedArray()).randomRegular()
-                })
-            }
-
-            Pair(
-                MultipleGenerationReport(type.toString(), n, finals, alphabet.toTypedArray(), Array(multiple) { results[it].first }),
-                Array(multiple) { results[it].second }
-            )
-        }
-        else when (type) {
-            Type.FSA -> AutomatonGenerator(n, alphabet.toTypedArray(), finalStates = finals).randomFSA()
-            Type.MEALY -> AutomatonGenerator(n, alphabet.toTypedArray(), outputAlphabet = alphabet.toTypedArray()).randomMealy()
-            Type.MOORE -> AutomatonGenerator(n, alphabet.toTypedArray(), outputAlphabet = alphabet.toTypedArray()).randomMoore()
-            Type.REGR -> GrammarGenerator(n, finals, alphabet.toTypedArray()).randomRegular()
-        }
-
-        CLI.saveFile(result, "new_${type.name.toLowerCase()}", json)
-    }
+    override fun run() = Commands.random(type, n, finals, multiple, json, alphabet.toTypedArray())
 }

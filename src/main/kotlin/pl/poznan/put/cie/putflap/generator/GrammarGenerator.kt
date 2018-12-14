@@ -6,6 +6,13 @@ import pl.poznan.put.cie.putflap.exception.TooManyNonterminalsException
 import pl.poznan.put.cie.putflap.report.GenerationReport
 import java.util.*
 
+/**
+ * Implements generation of random regular grammar
+ *
+ * @param n number of states
+ * @param alphabet alphabet to use (generated structure may but does not have to use all symbols)
+ * @param finals number of final states
+ */
 class GrammarGenerator (
     private val n: Int,
     private val finals: Int,

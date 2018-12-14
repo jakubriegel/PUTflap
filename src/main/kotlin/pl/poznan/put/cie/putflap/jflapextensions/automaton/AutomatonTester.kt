@@ -16,6 +16,9 @@ import pl.poznan.put.cie.putflap.report.test.MultipleAlphabetReport
 import pl.poznan.put.cie.putflap.report.test.MultipleNondeterminismReport
 import pl.poznan.put.cie.putflap.report.test.NondeterminismReport
 
+/**
+ * Implements JFLAP tests
+ */
 object AutomatonTester {
 
     fun checkNondeterminism(automatons: Array<Automaton>): MultipleNondeterminismReport {
@@ -38,7 +41,7 @@ object AutomatonTester {
         )
     }
 
-    fun checkLambdaTransitions(automaton: Automaton): LambdaTransitionsReport {
+    private fun checkLambdaTransitions(automaton: Automaton): LambdaTransitionsReport {
         val checker = LambdaCheckerFactory.getLambdaChecker(automaton)
         val transitions = automaton.transitions
         val lambdaTransitions = mutableListOf<Transition>()
@@ -59,7 +62,7 @@ object AutomatonTester {
         return EquivalenceReport(allEquivalent)
     }
 
-    fun checkEquivalenceOfTwoFSAs(a1: FiniteStateAutomaton, a2: FiniteStateAutomaton): EquivalenceReport {
+    private fun checkEquivalenceOfTwoFSAs(a1: FiniteStateAutomaton, a2: FiniteStateAutomaton): EquivalenceReport {
         val equal = FSAEqualityChecker().equals(a1, a2)
         return EquivalenceReport(equal)
     }
