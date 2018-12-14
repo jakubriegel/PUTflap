@@ -1,4 +1,4 @@
-package pl.poznan.put.cie.putflap.converter
+package pl.poznan.put.cie.putflap.jflapextensions.automaton
 
 import jflap.automata.Automaton
 import jflap.automata.Transition
@@ -16,17 +16,23 @@ import jflap.grammar.cfg.ContextFreeGrammar
 import jflap.grammar.reg.RightLinearGrammarToFSAConverter
 import jflap.gui.grammar.GrammarTableModel
 import pl.poznan.put.cie.putflap.exception.IncompatibleAutomatonException
-import pl.poznan.put.cie.putflap.jflapextensions.automaton.AutomatonType
 import pl.poznan.put.cie.putflap.report.ConversionReport
 import pl.poznan.put.cie.putflap.report.MultipleConversionReport
 import pl.poznan.put.cie.putflap.report.structure.automaton.AutomatonReport
 import pl.poznan.put.cie.putflap.report.structure.grammar.GrammarReport
 import pl.poznan.put.cie.putflap.report.structure.regexp.RegExpReport
 
+/**
+ * Implementation of JFLAP conversion tasks
+ */
 object AutomatonConverter {
 
     fun toDeterministicFSA(automatons: Array<FiniteStateAutomaton>): Pair<MultipleConversionReport, Array<FiniteStateAutomaton>> {
-        val conversions = Array(automatons.size) { toDeterministicFSA(automatons[it]) }
+        val conversions = Array(automatons.size) {
+            toDeterministicFSA(
+                automatons[it]
+            )
+        }
         val reports = Array(conversions.size) { conversions[it].first }
         return Pair(
             MultipleConversionReport(
@@ -38,7 +44,7 @@ object AutomatonConverter {
         )
     }
 
-    fun toDeterministicFSA(automaton: FiniteStateAutomaton): Pair<ConversionReport, FiniteStateAutomaton> {
+    private fun toDeterministicFSA(automaton: FiniteStateAutomaton): Pair<ConversionReport, FiniteStateAutomaton> {
         val result = NFAToDFA().convertToDFA(automaton)
         return Pair(ConversionReport(
             AutomatonType.get(automaton).toString(), AutomatonType.get(result).toString(), true, AutomatonReport(result)),
@@ -47,7 +53,11 @@ object AutomatonConverter {
     }
 
     fun toMinimalFSA(automatons: Array<FiniteStateAutomaton>): Pair<MultipleConversionReport, Array<FiniteStateAutomaton>> {
-        val conversions = Array(automatons.size) { toMinimalFSA(automatons[it]) }
+        val conversions = Array(automatons.size) {
+            toMinimalFSA(
+                automatons[it]
+            )
+        }
         val reports = Array(conversions.size) { conversions[it].first }
         return Pair(
             MultipleConversionReport(
@@ -59,7 +69,7 @@ object AutomatonConverter {
         )
     }
 
-    fun toMinimalFSA(automaton: FiniteStateAutomaton):  Pair<ConversionReport, FiniteStateAutomaton> {
+    private fun toMinimalFSA(automaton: FiniteStateAutomaton):  Pair<ConversionReport, FiniteStateAutomaton> {
         val minimizer = Minimizer()
         minimizer.initializeMinimizer()
         minimizer.addTrapState(automaton)
@@ -71,7 +81,11 @@ object AutomatonConverter {
     }
 
     fun toGrammar(automatons: Array<Automaton>): Pair<MultipleConversionReport, Array<Grammar>> {
-        val conversions = Array(automatons.size) { toGrammar(automatons[it]) }
+        val conversions = Array(automatons.size) {
+            toGrammar(
+                automatons[it]
+            )
+        }
         val reports = Array(conversions.size) { conversions[it].first }
         return Pair(
             MultipleConversionReport(
@@ -83,7 +97,7 @@ object AutomatonConverter {
         )
     }
 
-    fun toGrammar(automaton: Automaton): Pair<ConversionReport, Grammar> {
+    private fun toGrammar(automaton: Automaton): Pair<ConversionReport, Grammar> {
         val grammar =  when (automaton) {
             is FiniteStateAutomaton -> FSAToRegularGrammarConverter().convertToRegularGrammar(automaton)
             is PushdownAutomaton -> {
@@ -122,7 +136,11 @@ object AutomatonConverter {
     }
 
     fun toRegularExpression(automatons: Array<FiniteStateAutomaton>): Pair<MultipleConversionReport, Array<String>> {
-        val conversions = Array(automatons.size) { toRegularExpression(automatons[it]) }
+        val conversions = Array(automatons.size) {
+            toRegularExpression(
+                automatons[it]
+            )
+        }
         val reports = Array(conversions.size) { conversions[it].first }
         return Pair(
             MultipleConversionReport(
@@ -134,7 +152,7 @@ object AutomatonConverter {
         )
     }
 
-    fun toRegularExpression(automaton: FiniteStateAutomaton): Pair<ConversionReport, String> {
+    private fun toRegularExpression(automaton: FiniteStateAutomaton): Pair<ConversionReport, String> {
         if (!FSAToRegularExpressionConverter.isConvertable(automaton))
             throw IncompatibleAutomatonException("Incorrect form of FSA to perform conversion")
 
@@ -147,7 +165,11 @@ object AutomatonConverter {
     }
 
     fun toFSA(grammars: Array<Grammar>): Pair<MultipleConversionReport, Array<FiniteStateAutomaton>> {
-        val conversions = Array(grammars.size) { toFSA(grammars[it]) }
+        val conversions = Array(grammars.size) {
+            toFSA(
+                grammars[it]
+            )
+        }
         val reports = Array(conversions.size) { conversions[it].first }
         return Pair(
             MultipleConversionReport(
@@ -159,7 +181,7 @@ object AutomatonConverter {
         )
     }
 
-    fun toFSA(grammar: Grammar): Pair<ConversionReport, FiniteStateAutomaton> {
+    private fun toFSA(grammar: Grammar): Pair<ConversionReport, FiniteStateAutomaton> {
         val automaton = if (GrammarChecker.isRightLinearGrammar(grammar)) {
             val prototype = RightLinearGrammarToFSAConverter().convertToAutomaton(grammar)
             val automaton = FiniteStateAutomaton()
@@ -182,7 +204,11 @@ object AutomatonConverter {
     }
 
     fun toJSON(automatons: Array<Automaton>): Pair<MultipleConversionReport, Array<Automaton>> {
-        val conversions = Array(automatons.size) { toJSON(automatons[it]) }
+        val conversions = Array(automatons.size) {
+            toJSON(
+                automatons[it]
+            )
+        }
         val reports = Array(conversions.size) { conversions[it].first }
         return Pair(
             MultipleConversionReport(
@@ -194,7 +220,7 @@ object AutomatonConverter {
         )
     }
 
-    fun toJSON(automaton: Automaton): Pair<ConversionReport, Automaton> {
+    private fun toJSON(automaton: Automaton): Pair<ConversionReport, Automaton> {
         return Pair(ConversionReport(
             AutomatonType.get(automaton).toString(), "JSON", true, AutomatonReport.generate(automaton)),
             automaton
@@ -202,7 +228,11 @@ object AutomatonConverter {
     }
 
     fun toJSON(grammars: Array<Grammar>): Pair<MultipleConversionReport, Array<Grammar>> {
-        val conversions = Array(grammars.size) { toJSON(grammars[it]) }
+        val conversions = Array(grammars.size) {
+            toJSON(
+                grammars[it]
+            )
+        }
         val reports = Array(conversions.size) { conversions[it].first }
         return Pair(
             MultipleConversionReport(
@@ -214,7 +244,7 @@ object AutomatonConverter {
         )
     }
 
-    fun toJSON(grammar: Grammar): Pair<ConversionReport, Grammar> {
+    private fun toJSON(grammar: Grammar): Pair<ConversionReport, Grammar> {
         return Pair(ConversionReport(
             "grammar", "JSON", true, GrammarReport(grammar)),
             grammar

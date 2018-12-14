@@ -13,6 +13,9 @@ import jflap.automata.pda.PushdownAutomaton
 import pl.poznan.put.cie.putflap.report.structure.automaton.AutomatonReport
 import java.awt.Point
 
+/**
+ * Implements creation of automatons from [reports][AutomatonReport]
+ */
 object AutomatonCreator {
 
     fun fromReport(automatonReport: AutomatonReport): Automaton = when (automatonReport.getAutomatonClass()) {

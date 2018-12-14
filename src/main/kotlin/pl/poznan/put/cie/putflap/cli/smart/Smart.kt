@@ -14,11 +14,22 @@ import pl.poznan.put.cie.putflap.cli.smart.parameters.TestParameters
 import pl.poznan.put.cie.putflap.cli.smart.parameters.WordParameters
 import java.io.File
 
+/**
+ * Implementation of smart tasks
+ *
+ * @param configName name of file with [configuration][SmartConfig] to run
+ */
 class Smart (
     configName: String
 ) {
 
+    /**
+     * JSON mapper
+     */
     private val mapper = ObjectMapper()
+    /**
+     * [Configuration][SmartConfig] to run
+     */
     private val config: JsonNode
 
     init {
@@ -28,6 +39,9 @@ class Smart (
         config = mapper.readTree(configJSON)
     }
 
+    /**
+     * Performs smart tasks
+     */
     fun command() {
         when (getInstruction()) {
             Types.InstructionType.RANDOM -> {
@@ -76,10 +90,18 @@ class Smart (
 
     }
 
+    /**
+     * Retrieves instruction from [config]
+     */
     private fun getInstruction(): Types.InstructionType = Types.InstructionType.valueOf(
         config.get("instruction").textValue().toUpperCase()
     )
 
+    /**
+     * Retrieves [parameters][SmartParameters] from [config]
+     *
+     * @param T class of [parameters][SmartParameters] to retrieve
+     */
     private inline fun <reified T : SmartParameters> getParameters(): T = mapper.readValue(
         config.get("parameters").toString()
     )

@@ -5,16 +5,16 @@ import jflap.automata.fsa.FiniteStateAutomaton
 import jflap.file.XMLCodec
 import jflap.grammar.Grammar
 import pl.poznan.put.cie.putflap.cli.smart.Smart
-import pl.poznan.put.cie.putflap.converter.AutomatonConverter
 import pl.poznan.put.cie.putflap.exception.IncompatibleAutomatonException
 import pl.poznan.put.cie.putflap.exception.InvalidActionException
 import pl.poznan.put.cie.putflap.generator.AutomatonGenerator
 import pl.poznan.put.cie.putflap.generator.GrammarGenerator
 import pl.poznan.put.cie.putflap.generator.WordGenerator
+import pl.poznan.put.cie.putflap.jflapextensions.automaton.AutomatonConverter
 import pl.poznan.put.cie.putflap.jflapextensions.automaton.AutomatonCreator
 import pl.poznan.put.cie.putflap.jflapextensions.automaton.AutomatonRunner
 import pl.poznan.put.cie.putflap.jflapextensions.automaton.AutomatonTester
-import pl.poznan.put.cie.putflap.jflapextensions.automaton.GrammarCreator
+import pl.poznan.put.cie.putflap.jflapextensions.grammar.GrammarCreator
 import pl.poznan.put.cie.putflap.report.GenerationReport
 import pl.poznan.put.cie.putflap.report.MultipleConversionReport
 import pl.poznan.put.cie.putflap.report.MultipleGenerationReport
@@ -27,8 +27,21 @@ import pl.poznan.put.cie.putflap.report.structure.grammar.GrammarReport
 import java.io.File
 import java.io.Serializable
 
+/**
+ * Container for implementation of all CLI tasks
+ */
 object Commands {
-       
+
+    /**
+     * Generates random structure and save it to file
+     *
+     * @param type type of structure to generate
+     * @param n number of states
+     * @param finals number of final states (not considered with Mealy and Moore)
+     * @param multiple number of structures to generate
+     * @param json if true the result is saved as JSON
+     * @param alphabet alphabet to use for generation (generated structure may but does not have to use all symbols)
+     */
     fun random(type: Types.RandomType, n: Int, finals: Int, multiple: Int, json: Boolean, alphabet: Array<String>) {
         val result: Pair<Report, Serializable> = if (multiple > 1) {
             val results = mutableListOf<Pair<GenerationReport, Serializable>>()
@@ -59,21 +72,46 @@ object Commands {
         CLI.saveFile(result, "new_${type.name.toLowerCase()}", json)
     }
 
+    /**
+     * Runs automaton for given [words] and saves result to file.
+     *
+     * @param automatonFileName name of .jff file with automaton to run
+     * @param words words to run automaton on
+     */
     fun run(automatonFileName: String, words: Array<String>) {
         val automaton = XMLCodec().decode(File(automatonFileName), null) as Automaton
         run(automaton, words)
     }
 
+    /**
+     * Runs automaton for given [words] and saves result to file.
+     *
+     * @param automatonReport [Report] with automaton to run
+     * @param words words to run automaton on
+     */
     fun run(automatonReport: AutomatonReport, words: Array<String>, n: Int = -1) {
         val automaton = AutomatonCreator.fromReport(automatonReport)
         run(automaton, words, n)
     }
 
+    /**
+     * Runs automaton for given [words] and saves result to file.
+     *
+     * @param automaton automaton to run
+     * @param words words to run automaton on
+     * @param n if specified will be append to filename
+     */
     private fun run(automaton: Automaton, words: Array<String>, n: Int = -1) {
         val report = AutomatonRunner.runAutomaton(automaton, words)
         CLI.saveFile(report, "run_report${if (n != -1) "_$n" else ""}")
     }
 
+    /**
+     * Performs test specified by [type] on given [inputs] and saves result to file.
+     *
+     * @param type [type][Types.TestType] of test to perform
+     * @param inputs [reports][Report] with structures to test
+     */
     fun test(type: Types.TestType, inputs: Array<StructureReport>) {
         when {
             inputs.all { it is AutomatonReport } -> test(type, Array(inputs.size) { inputs[it] as AutomatonReport })
@@ -82,16 +120,34 @@ object Commands {
         }
     }
 
+    /**
+     * Performs test specified by [type] on given [inputs] and saves result to file.
+     *
+     * @param type [type][Types.TestType] of test to perform
+     * @param inputs [reports][AutomatonReport] with automatons to test
+     */
     fun test(type: Types.TestType, inputs: Array<AutomatonReport>) {
         val automatons = automatonsFromReports(inputs)
         test(type, automatons)
     }
 
+    /**
+     * Performs test specified by [type] on given [inputs] and saves result to file.
+     *
+     * @param type [type][Types.TestType] of test to perform
+     * @param inputs [reports][GrammarReport] with grammars to test
+     */
     fun test(type: Types.TestType, inputs: Array<GrammarReport>) {
         val grammars = grammarsFromReports(inputs)
         test(type, grammars)
     }
 
+    /**
+     * Performs test specified by [type] on given [inputs] and saves result to file.
+     *
+     * @param type [type][Types.TestType] of test to perform
+     * @param inputs names of .jff files with structures to test
+     */
     fun test(type: Types.TestType, inputs: Array<String>) {
         val structures = Array(inputs.size) { XMLCodec().decode(File(inputs[it]), null) }
 
@@ -102,6 +158,12 @@ object Commands {
         }
     }
 
+    /**
+     * Performs test specified by [type] on given [automatons] and saves result to file.
+     *
+     * @param type [type][Types.TestType] of test to perform
+     * @param automatons automatons to test
+     */
     private fun test(type: Types.TestType, automatons: Array<Automaton>) {
         val report: Report = when (type) {
             Types.TestType.NDET -> AutomatonTester.checkNondeterminism(automatons)
@@ -119,6 +181,12 @@ object Commands {
         CLI.saveFile(report, "test_${type.toString().toLowerCase()}_report")
     }
 
+    /**
+     * Performs test specified by [type] on given [grammars] and saves result to file.
+     *
+     * @param type [type][Types.TestType] of test to perform
+     * @param grammars grammars to test
+     */
     private fun test(type: Types.TestType, grammars: Array<Grammar>) {
         val report: Report = when (type) {
             Types.TestType.AL -> AutomatonTester.getAlphabets(grammars)
@@ -128,6 +196,13 @@ object Commands {
         CLI.saveFile(report, "test_${type.toString().toLowerCase()}_report")
     }
 
+    /**
+     * Performs conversion specified by [type] on given [inputs] and saves result to file.
+     *
+     * @param type [type][Types.TestType] of conversion to perform
+     * @param json if true the result is saved as JSON
+     * @param inputs [reports][Report] with structures to convert
+     */
     fun convert(type: Types.ConvertType, json: Boolean, inputs: Array<StructureReport>) {
         when {
             inputs.all { it is AutomatonReport } -> convert(type, json, Array(inputs.size) { inputs[it] as AutomatonReport })
@@ -136,16 +211,37 @@ object Commands {
         }
     }
 
+    /**
+     * Performs conversion specified by [type] on given [inputs] and saves result to file.
+     *
+     * @param type [type][Types.TestType] of conversion to perform
+     * @param json if true the result is saved as JSON
+     * @param inputs [reports][AutomatonReport] with automatons to convert
+     */
     fun convert(type: Types.ConvertType, json: Boolean, inputs: Array<AutomatonReport>) {
         val automatons = automatonsFromReports(inputs)
         convert(type, json, automatons)
     }
 
+    /**
+     * Performs conversion specified by [type] on given [inputs] and saves result to file.
+     *
+     * @param type [type][Types.TestType] of conversion to perform
+     * @param json if true the result is saved as JSON
+     * @param inputs [reports][GrammarReport] with grammars to convert
+     */
     fun convert(type: Types.ConvertType, json: Boolean, inputs: Array<GrammarReport>) {
         val grammars = grammarsFromReports(inputs)
         convert(type, json, grammars)
     }
 
+    /**
+     * Performs conversion specified by [type] on given [inputs] and saves result to file.
+     *
+     * @param type [type][Types.TestType] of conversion to perform
+     * @param json if true the result is saved as JSON
+     * @param inputs names of .jff files with structures to convert
+     */
     fun convert(type: Types.ConvertType, json: Boolean, inputs: Array<String>) {
         val structures = Array(inputs.size) { XMLCodec().decode(File(inputs[it]), null) }
 
@@ -157,6 +253,13 @@ object Commands {
 
     }
 
+    /**
+     * Performs conversion specified by [type] on given [grammars] and saves result to file.
+     *
+     * @param type [type][Types.TestType] of conversion to perform
+     * @param json if true the result is saved as JSON
+     * @param grammars grammars to convert
+     */
     private fun convert(type: Types.ConvertType, json: Boolean, grammars: Array<Grammar>) {
         val conversion: Pair<MultipleConversionReport, Array<*>> = when (type) {
             Types.ConvertType.PDA -> TODO("implement conversion from grammar to PDA")
@@ -173,6 +276,13 @@ object Commands {
         )
     }
 
+    /**
+     * Performs conversion specified by [type] on given [automatons] and saves result to file.
+     *
+     * @param type [type][Types.TestType] of conversion to perform
+     * @param json if true the result is saved as JSON
+     * @param automatons automatons to convert
+     */
     private fun convert(type: Types.ConvertType, json: Boolean, automatons: Array<Automaton>) {
         val conversion: Pair<MultipleConversionReport, Array<*>> = when  (type) {
             Types.ConvertType.GR -> AutomatonConverter.toGrammar(automatons)
@@ -198,16 +308,34 @@ object Commands {
         )
     }
 
+    /**
+     * Generates random valid words for given automatons
+     *
+     * @param multiple number of words to generate
+     * @param inputs [reports][AutomatonReport] with automatons to get words for
+     */
     fun word(multiple: Int, inputs: Array<AutomatonReport>) {
         val automatons = Array(inputs.size) { AutomatonCreator.fromReport(inputs[it]) }
         word(multiple, automatons)
     }
 
+    /**
+     * Generates random valid words for given automaton
+     *
+     * @param multiple number of words to generate
+     * @param inputFileName name of .jff with automaton to get words for
+     */
     fun word(multiple: Int, json: Boolean, inputFileName: String) {
         val automaton = XMLCodec().decode(File(inputFileName), null) as Automaton
         word(multiple, json, automaton)
     }
 
+    /**
+     * Generates random valid words for given automaton
+     *
+     * @param multiple number of words to generate
+     * @param automaton automaton to get words for
+     */
     private fun word(multiple: Int, json: Boolean, automaton: Automaton) {
         val report = WordGenerator.randomWords(automaton, multiple)
 
@@ -215,6 +343,12 @@ object Commands {
         else for (word in report.words) println(word)
     }
 
+    /**
+     * Generates random valid words for given automatons
+     *
+     * @param multiple number of words to generate
+     * @param automatons automatons to get words for
+     */
     private fun word(multiple: Int, automatons: Array<Automaton>) {
         val reports: Array<WordsReport> = Array(automatons.size) {
             WordGenerator.randomWords(automatons[it], multiple)
@@ -223,10 +357,25 @@ object Commands {
         CLI.saveFile(MultipleWordsReport(reports), "words")
     }
 
+    /**
+     * Performs [smart][Smart] tasks for given [configuration][configName]
+     *
+     * @param configName name of json file with configuration to run
+     */
     fun smart(configName: String) = Smart(configName).command()
 
+    /**
+     * Retrieves array of [Automaton] from array of [AutomatonReport]
+     *
+     * @param inputs [reports][AutomatonReport] to parse
+     */
     private fun automatonsFromReports(inputs: Array<AutomatonReport>) = Array(inputs.size) { AutomatonCreator.fromReport(inputs[it]) }
 
+    /**
+     * Retrieves array of [Grammar] from array of [GrammarReport]
+     *
+     * @param inputs [reports][GrammarReport] to parse
+     */
     private fun grammarsFromReports(inputs: Array<GrammarReport>) = Array(inputs.size) { GrammarCreator.fromReport(inputs[it]) }
 
 }

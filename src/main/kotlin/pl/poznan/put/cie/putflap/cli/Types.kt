@@ -1,5 +1,11 @@
 package pl.poznan.put.cie.putflap.cli
 
+/**
+ * Types of tasks performed by CLI
+ *
+ * @see Commands
+ * @see CLI
+ */
 abstract class Types {
     enum class InstructionType {
         RANDOM, RUN, TEST, WORD, CONVERT

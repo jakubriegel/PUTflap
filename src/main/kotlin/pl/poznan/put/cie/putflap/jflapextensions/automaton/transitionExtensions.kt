@@ -5,6 +5,9 @@ import jflap.automata.fsa.FSATransition
 import jflap.automata.mealy.MealyTransition
 import jflap.automata.pda.PDATransition
 
+/**
+ * Universal method for retrieving transitions read value
+ */
 fun Transition.labelValue(): String {
     return when (this) {
         is FSATransition -> label

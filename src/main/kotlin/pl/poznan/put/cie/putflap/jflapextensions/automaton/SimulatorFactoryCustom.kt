@@ -12,6 +12,9 @@ import jflap.automata.mealy.MooreStepByStateSimulator
 import jflap.automata.pda.PushdownAutomaton
 import jflap.automata.turing.TuringMachine
 
+/**
+ * Custom implementation of JFLAP SimulatorFactory
+ */
 object SimulatorFactoryCustom {
     /**
      * Returns the automaton simulator for this type of automaton.

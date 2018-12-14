@@ -7,6 +7,9 @@ import pl.poznan.put.cie.putflap.report.RunReport
 import pl.poznan.put.cie.putflap.report.structure.automaton.AutomatonReport
 import pl.poznan.put.cie.putflap.report.structure.automaton.StepReport
 
+/**
+ * Implements JFLAP run methods
+ */
 object AutomatonRunner {
 
     fun runAutomaton(automaton: Automaton, input: Array<String>): MultipleRunReport {

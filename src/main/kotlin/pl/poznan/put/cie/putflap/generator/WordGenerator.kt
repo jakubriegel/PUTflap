@@ -10,10 +10,16 @@ import pl.poznan.put.cie.putflap.jflapextensions.automaton.labelValue
 import pl.poznan.put.cie.putflap.report.WordsReport
 import java.util.*
 
+/**
+ * Implements generation of random, valid words for automatons
+ */
 object WordGenerator {
     private const val p = .5
     private const val LAMBDA = ""
 
+    /**
+     * Generates [n] random, valid words for specified [automaton]. The number of generated words may be equal or smaller than [n]
+     */
     fun randomWords(automaton: Automaton, n: Int = 0): WordsReport {
         val words = mutableSetOf<String>()
         var sinceLastNew = 0

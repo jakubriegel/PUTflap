@@ -1,5 +1,8 @@
 package pl.poznan.put.cie.putflap.exception
 
+/**
+ * Exceptions used in PUTflap. Currently not fully developed
+ */
 abstract class PUTflapException(message: String) : Exception(message)
 
 class IncompatibleAutomatonException(message: String = "") : PUTflapException(

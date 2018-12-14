@@ -13,6 +13,14 @@ import pl.poznan.put.cie.putflap.jflapextensions.automaton.StateType
 import pl.poznan.put.cie.putflap.report.GenerationReport
 import java.awt.Point
 
+/**
+ * Implements generation of random, deterministic FSA, Mealy and Moore
+ *
+ * @param n number of states
+ * @param alphabet alphabet to use (generated structure may but does not have to use all symbols)
+ * @param finalStates number of final states (not considered with Mealy and Moore)
+ * @param outputAlphabet output alphabet for Mealy and Moore (generated structure may but does not have to use all symbols)
+ */
 class AutomatonGenerator(
     private val n: Int,
     private val alphabet: Array<String>,

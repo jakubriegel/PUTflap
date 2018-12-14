@@ -9,6 +9,9 @@ import jflap.automata.pda.PushdownAutomaton
 import java.util.*
 import javax.swing.JOptionPane
 
+/**
+ * Custom implementation of JFLAP PDAStepByStepSimulator. Gets rid of GUI elements and optimizes code for Kotlin
+ */
 class PDAStepByStepSimulatorCustom (val automaton: PushdownAutomaton, val acceptance: Int) : AutomatonSimulator(automaton)  {
 
     companion object {

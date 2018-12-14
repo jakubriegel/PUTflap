@@ -3,6 +3,9 @@ package pl.poznan.put.cie.putflap.jflapextensions.automaton
 import jflap.automata.Automaton
 import jflap.automata.State
 
+/**
+ * Stores all possible state types
+ */
 enum class StateType {
     INITIAL, FINAL, STATE;
     companion object {
