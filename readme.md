@@ -1,8 +1,10 @@
 # PUTflap
-PUTflap is an extension of JFLAP, which makes JFLAP features available from the command line. It can report results as JSON and is capable of performing operations on many arguments at once. PUTflap will help students and researchers with their work and also it is a foundation for developing JavaScript application, which will visualize JFLAP operations in web browser.
+PUTflap is an extension of JFLAP, which makes JFLAP features available from the command line. It can report results as JSON and is capable of performing operations on many arguments at once. PUTflap will help students and researchers with their work and also it is a foundation for developing web application, which will visualize JFLAP operations in web browser and provide REST API.
+
+Task can be done with _[CLI](#cli)_ or automated with _[smart](#smart)_.
 
 ## features
-The aim of this project is to support full JFLAP functionality from command line. Currently only some part of it is available.
+The aim of this project is to support full JFLAP functionality from command line.
 
 Every operation provides its results as a JSON file. Optionally if the result can be written as JFLAP file, it can output such file.
 
@@ -19,6 +21,7 @@ Every operation provides its results as a JSON file. Optionally if the result ca
 - conversion to minimal FSA
 - conversion to grammar
 - conversion to regular expression
+- convert from `.jff` to `.json`
 
 #### Mealy and Moore Machine
 - generation of random, deterministic machine
@@ -27,20 +30,22 @@ Every operation provides its results as a JSON file. Optionally if the result ca
 - test for nondeterminism
 - test for lambda transitions
 - retrieve input and output alphabet
+- convert from `.jff` to `.json`
 
 #### Pushdown Automaton
-- generation of random, deterministic PDA
 - generation of random valid word
 - run PDA for given input
 - test for nondeterminism
 - test for lambda transitions
 - retrieve alphabet
 - conversion to grammar
+- convert from `.jff` to `.json`
 
 #### grammar
 - generation of random regular grammar
 - retrieve alphabet
 - conversion of regular grammar to FSA
+- convert from `.jff` to `.json`
 
 ## usage
 Gradle tasks implemented in project generate three equally capable version of PUTflap: **jar**, **Linux zip** and **Windows exe**.
@@ -68,11 +73,11 @@ The _command line interface_ is divided into six sections. Each of them is descr
 generation of random automatons and grammars
 
 flags:
-* `-t` - type of structure to generate: `fsa` - finite state automaton, `moore` - Moore machine, `mealy` - Mealy machine, `regr` - regular grammar. All generated structures are deterministic.
-* `-n` - number of states
-* `-f` - number of final states. Has no effect on Mealy and Moore machines. Default = 1
-* `-m` - number of structures to generate. Default = 1
-* `-j` - write answer as json file
+* `-t`, `--type` - type of structure to generate: `fsa` - finite state automaton, `moore` - Moore machine, `mealy` - Mealy machine, `regr` - regular grammar. All generated structures are deterministic.
+* `-n`, - number of states
+* `-f`, `--finals` - number of final states. Has no effect on Mealy and Moore machines. Default = 1
+* `-m`, `--multiple` - number of structures to generate. Default = 1
+* `-j`, `--json` - write answer as json file
 
 arguments:
 * `alpahbet` - alphabet to generate automaton on. Symbols can be single or multiple letters. The generator might but does not have to use all of given symbols. For Mealy and Moore machines is a template for input and output alphabet
@@ -83,7 +88,7 @@ sample usage: `./putflap random -t fsa -n 10 -f 3 a b c d e f g h`
 running automatons for given inputs
 
 flags:
-* `-i` - name of file with automaton to run
+* `-i`, `--input` - name of file with automaton to run
 
 arguments:
 * `words` - words to run given automaton on
@@ -94,7 +99,7 @@ sample usage: `./putflap run -i automaton.jff abc acb bac`
 check of specific characteristics of given automatons and grammars
 
 flags:
-* `-t` - type of test to perform: `ndet` - check if automaton is deterministic, `eq` - check equivalence of two or more FSAs, `al` - retrieve alphabet of automaton or grammar
+* `-t`, `--type` - type of test to perform: `ndet` - check if automaton is deterministic, `eq` - check equivalence of two or more FSAs, `al` - retrieve alphabet of automaton or grammar
 
 arguments:
 * `inputs` - names of files with structures to test
@@ -105,8 +110,8 @@ sample usage: `./putflap test -t ndet automaton_1.jff automaton_2.jff`
 generation of valid words for given automatons
 
 flags:
-* `-m` - number of words to generate. Default = 1
-* `-j` - write answer as json file
+* `-m`, `--multiple` - number of words to generate. Default = 1
+* `-j`, `--json` - write answer as json file
 
 arguments:
 * `automatonFile` - name of file with automaton
@@ -117,8 +122,8 @@ sample usage: `./putflap word automaton.jff`
 perform various conversion tasks on automaton and grammars
 
 flags:
-* `-t` - type of conversion to perform: `dfa` - FSA to deterministic FSA, `mini` - FSA to minimal FSA, `gra` - automaton to grammar, `re` - FSA to regular expression, `pda` - grammar to PDA, `fsa` - grammar to FSA, `json` - automaton or grammar as `.jff` file to `.json` file. All generated structures are deterministic.
-* `-j` - write answer as json file
+* `-t`, `--type` - type of conversion to perform: `dfa` - FSA to deterministic FSA, `mini` - FSA to minimal FSA, `gra` - automaton to grammar, `re` - FSA to regular expression, `pda` - grammar to PDA, `fsa` - grammar to FSA, `json` - automaton or grammar as `.jff` file to `.json` file. All generated structures are deterministic.
+* `-j`, `--json` - write answer as json file
 
 arguments:
 * `inputs` - names of files with structures to convert
@@ -126,10 +131,25 @@ arguments:
 sample usage: `./putflap convert -t re -j fsa.jff`
 
 
-### smart 
-perform other task from instructions and input written in `config.json` file
+### **smart** 
+perform tasks from other sections with parameters written in `.json` file
 
-_not available yet_
+sample usage: `./putflap smart random_fsa.json`
+
+> *Smart* currently supports all _PUTflap_ functionality except conversions from grammar and testing grammars. 
+
+#### configuration format
+Parameters in smart configurations are equivalent to CLI parameters. General structure of `json` looks like this:
+```json
+{
+  "instruction": "name of section to perform task from",
+  "parameters": "dictionary of task parameters"
+}
+```  
+
+Main feature of *smart* is that each input can be specified as array of automatons and *PUTflap* will perform requested task for all of them. 
+
+In `parameters` longer names are used. Sample configurations are provided in `samples/smart`. 
 
 ## license
 PUTflap is distributed free of charge based on JFLAP license and CC BY-NC-SA 4.0	 
@@ -173,7 +193,9 @@ IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
 WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
 ## credits
-This is a project made by Jakub Riegel and supervised by dr Krzysztof Zwierzyński from [Poznan University of Technology](https://www4.put.poznan.pl/en) .
+This is a project made by Jakub Riegel and supervised by dr Krzysztof Zwierzyński from [Poznan University of Technology](https://www4.put.poznan.pl/en) as a part of Formal Languages and Compilers course and will be further developed by future course participants.
+
+The maintainer of the original JFLAP is Susan Roger. More information can be found on [www.jflap.org](http://www.jflap.org/)
 
 ---
 [<img src="http://iim.put.poznan.pl/Szata/PP.gif" width="100dp" />](https://www4.put.poznan.pl/en)
