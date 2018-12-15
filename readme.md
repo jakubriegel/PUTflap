@@ -50,18 +50,13 @@ Every operation provides its results as a JSON file. Optionally if the result ca
 - convert from `.jff` to `.json`
 
 ## usage
-Gradle tasks implemented in project generate three equally capable version of PUTflap: **jar**, **Linux zip** and **Windows exe**.
+Gradle tasks implemented in project generate two equally capable version of PUTflap: **jar** and **Windows exe**.
 
 ### build and run
 #### jar
 **build:** `./gradlew clean build shadowJar` build result is saved in `build/libs`
 
  **run:** `java -jar putflap.jar ARGS`
-
-#### Linux 
-**build:** `./gradlew clean build shadowJar` build result is saved in `build/distributions`
-
-**run:** `./putflap ARGS`
 
 #### Windows
 **build:** `gradlew.exe clean build shadowJar createExe` build result is saved in `build/exe`
@@ -84,7 +79,7 @@ flags:
 arguments:
 * `alpahbet` - alphabet to generate automaton on. Symbols can be single or multiple letters. The generator might but does not have to use all of given symbols. For Mealy and Moore machines is a template for input and output alphabet
 
-sample usage: `./putflap random -t fsa -n 10 -f 3 a b c d e f g h`
+sample usage: `java -jar putflap.jar random -t fsa -n 10 -f 3 a b c d e f g h`
 
 #### run
 running automatons for given inputs
@@ -95,7 +90,7 @@ flags:
 arguments:
 * `words` - words to run given automaton on
 
-sample usage: `./putflap run -i automaton.jff abc acb bac`
+sample usage: `java -jar putflap.jar run -i automaton.jff abc acb bac`
 
 #### test
 check of specific characteristics of given automatons and grammars
@@ -106,7 +101,7 @@ flags:
 arguments:
 * `inputs` - names of files with structures to test
 
-sample usage: `./putflap test -t ndet automaton_1.jff automaton_2.jff`
+sample usage: `java -jar putflap.jar test -t ndet automaton_1.jff automaton_2.jff`
 
 #### word
 generation of valid words for given automatons
@@ -118,7 +113,7 @@ flags:
 arguments:
 * `automatonFile` - name of file with automaton
 
-sample usage: `./putflap word automaton.jff`
+sample usage: `java -jar putflap.jar word automaton.jff`
 
 #### convert
 perform various conversion tasks on automaton and grammars
@@ -130,13 +125,13 @@ flags:
 arguments:
 * `inputs` - names of files with structures to convert
 
-sample usage: `./putflap convert -t re -j fsa.jff`
+sample usage: `java -jar putflap.jar convert -t re -j fsa.jff`
 
 
 ### **smart** 
 perform tasks from other sections with parameters written in `.json` file
 
-sample usage: `./putflap smart random_fsa.json`
+sample usage: `java -jar putflap.jar smart random_fsa.json`
 
 > *Smart* currently supports all _PUTflap_ functionality except conversions from grammar and testing grammars. 
 

@@ -10,7 +10,7 @@ plugins {
 mainClassName = 'pl.poznan.put.cie.putflap.MainKt'
 
 group 'pl.poznan.put.cie'
-version '1.0-SNAPSHOT'
+version '1.0'
 
 sourceCompatibility = 1.8
 
@@ -44,7 +44,8 @@ compileTestKotlin.enabled = false
 jar.enabled = false
 distTar.enabled = false
 distZip.enabled = false
-
+shadowDistZip.enabled = false
+shadowDistTar.enabled = false
 
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
@@ -54,13 +55,13 @@ shadowJar {
     archiveName = 'putflap.jar'
 }
 
-shadowDistZip {
-    archiveName = 'putflap'
-}
-
-shadowDistTar {
-    archiveName = 'putflap.tar'
-}
+//shadowDistZip {
+//    archiveName = 'putflap'
+//}
+//
+//shadowDistTar {
+//    archiveName = 'putflap.tar'
+//}
 
 launch4j {
     outfile = 'putflap.exe'
