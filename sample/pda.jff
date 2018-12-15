@@ -50,7 +50,7 @@
 			<to>2</to>&#13;
 			<read/>&#13;
 			<pop>Z</pop>&#13;
-			<push/>&#13;
+			<push>Z</push>&#13;
 		</transition>&#13;
 	</automaton>&#13;
 </structure>

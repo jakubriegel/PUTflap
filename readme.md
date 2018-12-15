@@ -41,6 +41,8 @@ Every operation provides its results as a JSON file. Optionally if the result ca
 - conversion to grammar
 - convert from `.jff` to `.json`
 
+> In order to properly run PDA or generate word for it, transitions to its final state **must** read _lambda_, pop and push _Z_. 
+
 #### grammar
 - generation of random regular grammar
 - retrieve alphabet
