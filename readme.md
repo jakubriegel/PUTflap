@@ -192,7 +192,7 @@ WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 ## credits
 This is a project made by Jakub Riegel and supervised by dr Krzysztof Zwierzyński from [Poznan University of Technology](https://www4.put.poznan.pl/en) as a part of Formal Languages and Compilers course and will be further developed by future course participants.
 
-The maintainer of the original JFLAP is Susan Roger. More information can be found on [www.jflap.org](http://www.jflap.org/)
+The maintainer of the original JFLAP is Susan Rodger. More information can be found on [www.jflap.org](http://www.jflap.org/)
 
 ---
 [<img src="http://iim.put.poznan.pl/Szata/PP.gif" width="100dp" />](https://www4.put.poznan.pl/en)
