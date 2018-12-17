@@ -20,7 +20,7 @@ object CLI : CliktCommand(
 ) {
 
     init {
-        versionOption("alpha")
+        versionOption("1.0")
     }
 
     override fun run() = Unit
