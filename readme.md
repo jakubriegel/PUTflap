@@ -3,6 +3,8 @@ PUTflap is an extension of JFLAP, which makes JFLAP features available from the 
 
 Task can be done with _[CLI](#cli)_ or automated with _[smart](#smart)_.
 
+Application is usable, although some features are still missing. Contribution is open, but as it is university project, further consultation with maintainers is urged. More: [development](#development) and [credits](#credits)
+
 ## features
 The aim of this project is to support full JFLAP functionality from command line.
 
@@ -148,6 +150,16 @@ Main feature of *smart* is that each input can be specified as array of automato
 
 In `parameters` longer names are used. Sample configurations are provided in `samples/smart`. 
 
+## development
+Some features worth of implementing:
+- exceptions handling (error reports in JSON)
+- possibility to specify path to automaton or folder with automatons to use in _smart_
+- Turing Machine
+- edition of automatons from _CLI_
+- traffic statistics after running automaton
+- random PDA
+- nondeterministic radom automatons
+
 ## license
 PUTflap is distributed free of charge based on JFLAP license and CC BY-NC-SA 4.0	 
 
@@ -193,6 +205,11 @@ WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 This is a project made by Jakub Riegel and supervised by dr Krzysztof Zwierzyński from [Poznan University of Technology](https://www4.put.poznan.pl/en) as a part of Formal Languages and Compilers course and will be further developed by future course participants.
 
 The maintainer of the original JFLAP is Susan Rodger. More information can be found on [www.jflap.org](http://www.jflap.org/)
+
+### contact
+Jakub Riegel: jakub.riegel@student.put.poznan.pl
+
+dr Krzysztof Zwierzyński: krzysztof.zwierzynski@put.poznan.pl
 
 ---
 [<img src="http://iim.put.poznan.pl/Szata/PP.gif" width="100dp" />](https://www4.put.poznan.pl/en)
