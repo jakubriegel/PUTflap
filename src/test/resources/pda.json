@@ -1,0 +1,56 @@
+{
+	"type" : "PDA",
+	"states" : [ {
+		"id" : 2,
+		"name" : "q2",
+		"label" : "",
+		"type" : "FINAL",
+		"x" : 244,
+		"y" : 208
+	}, {
+		"id" : 1,
+		"name" : "q1",
+		"label" : "",
+		"type" : "STATE",
+		"x" : 166,
+		"y" : 118
+	}, {
+		"id" : 0,
+		"name" : "q0",
+		"label" : "",
+		"type" : "INITIAL",
+		"x" : 79,
+		"y" : 206
+	} ],
+	"transitions" : [ {
+		"from" : 0,
+		"to" : 0,
+		"read" : "a",
+		"pop" : "a",
+		"push" : "aa"
+	}, {
+		"from" : 0,
+		"to" : 1,
+		"read" : "b",
+		"pop" : "a",
+		"push" : ""
+	}, {
+		"from" : 0,
+		"to" : 0,
+		"read" : "a",
+		"pop" : "Z",
+		"push" : "aZ"
+	}, {
+		"from" : 1,
+		"to" : 1,
+		"read" : "b",
+		"pop" : "a",
+		"push" : ""
+	}, {
+		"from" : 1,
+		"to" : 2,
+		"read" : "",
+		"pop" : "Z",
+		"push" : "Z"
+	} ]
+}

@@ -1,0 +1,11 @@
+{
+  "instruction": "random",
+  "parameters": {
+    "type": "FSA",
+    "n": 10,
+    "finals": 3,
+    "multiple": 10,
+    "json": true,
+    "alphabet": ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"]
+  }
+}
