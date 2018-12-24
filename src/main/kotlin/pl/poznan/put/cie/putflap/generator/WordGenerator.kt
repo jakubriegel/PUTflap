@@ -20,7 +20,7 @@ object WordGenerator {
     /**
      * Generates [n] random, valid words for specified [automaton]. The number of generated words may be equal or smaller than [n]
      */
-    fun randomWords(automaton: Automaton, n: Int = 0): WordsReport {
+    fun randomWords(automaton: Automaton, n: Int): WordsReport {
         val words = mutableSetOf<String>()
         var sinceLastNew = 0
         val maxSinceLastNew = getMaxSinceLastNew(automaton.transitions.size)
