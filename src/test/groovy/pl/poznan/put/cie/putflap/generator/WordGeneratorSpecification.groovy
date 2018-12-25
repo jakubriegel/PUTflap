@@ -22,12 +22,10 @@ class WordGeneratorSpecification extends Specification {
 
     def "should generate random valid FSA word"() {
         given:
-        println(System.getProperty("user.dir"))
         def automaton = new AutomatonReader().get("fsa_simple.jff")
 
         when:
-
-        def word = wordGenerator.randomWord(automaton)
+        def word = wordGenerator.randomSingle(automaton)
 
         then:
         new FSAStepByStateSimulator(automaton).simulateInput(word)
@@ -39,11 +37,11 @@ class WordGeneratorSpecification extends Specification {
         def n = 50
 
         when:
-        def words = wordGenerator.randomWords(automaton, n)
+        def words = wordGenerator.randomMultiple(automaton, n)
 
         then:
-        words.generatedNumber <= n
-        checkAllWords(automaton, words.words)
+        words.size() <= n
+        checkAllWords(automaton, words)
     }
 
     def "should generate random valid Mealy word"() {
@@ -51,7 +49,7 @@ class WordGeneratorSpecification extends Specification {
         def automaton = new AutomatonReader().get("mealy.jff")
 
         when:
-        def word = wordGenerator.randomWord(automaton)
+        def word = wordGenerator.randomSingle(automaton)
 
         then:
         new MealyStepByStateSimulator(automaton).simulateInput(word)
@@ -63,11 +61,11 @@ class WordGeneratorSpecification extends Specification {
         def n = 50
 
         when:
-        def words = wordGenerator.randomWords(automaton, n)
+        def words = wordGenerator.randomMultiple(automaton, n)
 
         then:
-        words.generatedNumber <= n
-        checkAllWords(automaton, words.words)
+        words.size() <= n
+        checkAllWords(automaton, words)
     }
 
     def "should generate random valid Moore word"() {
@@ -75,7 +73,7 @@ class WordGeneratorSpecification extends Specification {
         def automaton = new AutomatonReader().get("moore.jff")
 
         when:
-        def word = wordGenerator.randomWord(automaton)
+        def word = wordGenerator.randomSingle(automaton)
 
         then:
         new MooreStepByStateSimulator(automaton).simulateInput(word)
@@ -87,11 +85,11 @@ class WordGeneratorSpecification extends Specification {
         def n = 50
 
         when:
-        def words = wordGenerator.randomWords(automaton, n)
+        def words = wordGenerator.randomMultiple(automaton, n)
 
         then:
-        words.generatedNumber <= n
-        checkAllWords(automaton, words.words)
+        words.size() <= n
+        checkAllWords(automaton, words)
     }
 
     def "should generate random valid PDA word"() {
@@ -99,7 +97,7 @@ class WordGeneratorSpecification extends Specification {
         def automaton = new AutomatonReader().get("pda.jff") as PushdownAutomaton
 
         when:
-        def word = wordGenerator.randomWord(automaton)
+        def word = wordGenerator.randomSingle(automaton)
 
         then:
         new PDAStepByStepSimulatorCustom(automaton, PDAStepByStepSimulatorCustom.FINAL_STATE_ACCEPTANCE).simulateInput(word)
@@ -111,11 +109,11 @@ class WordGeneratorSpecification extends Specification {
         def n = 50
 
         when:
-        def words = wordGenerator.randomWords(automaton, n)
+        def words = wordGenerator.randomMultiple(automaton, n)
 
         then:
-        words.generatedNumber <= n
-        checkAllWords(automaton, words.words)
+        words.size() <= n
+        checkAllWords(automaton, words)
     }
 
     def "should get start state of word for FSA"() {

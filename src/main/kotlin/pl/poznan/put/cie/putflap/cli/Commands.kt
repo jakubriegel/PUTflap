@@ -50,7 +50,7 @@ object Commands {
                     Types.RandomType.FSA -> AutomatonGenerator(n, alphabet, finalStates = finals).randomFSA()
                     Types.RandomType.MEALY -> AutomatonGenerator(n, alphabet, outputAlphabet = alphabet).randomMealy()
                     Types.RandomType.MOORE -> AutomatonGenerator(n, alphabet, outputAlphabet = alphabet).randomMoore()
-                    Types.RandomType.REGR -> GrammarGenerator(n, finals, alphabet).randomRegular()
+                    Types.RandomType.REGR -> GrammarGenerator(n, finals, alphabet).regular()
                 })
             }
 
@@ -66,7 +66,7 @@ object Commands {
             Types.RandomType.FSA -> AutomatonGenerator(n, alphabet, finalStates = finals).randomFSA()
             Types.RandomType.MEALY -> AutomatonGenerator(n, alphabet, outputAlphabet = alphabet).randomMealy()
             Types.RandomType.MOORE -> AutomatonGenerator(n, alphabet, outputAlphabet = alphabet).randomMoore()
-            Types.RandomType.REGR -> GrammarGenerator(n, finals, alphabet).randomRegular()
+            Types.RandomType.REGR -> GrammarGenerator(n, finals, alphabet).regular()
         }
 
         CLI.saveFile(result, "new_${type.name.toLowerCase()}", json)
@@ -337,7 +337,7 @@ object Commands {
      * @param automaton automaton to get words for
      */
     private fun word(multiple: Int, json: Boolean, automaton: Automaton) {
-        val report = WordGenerator.randomWords(automaton, multiple)
+        val report = WordGenerator.words(automaton, multiple)
 
         if (json) CLI.saveFile(report, "words")
         else for (word in report.words) println(word)
@@ -351,7 +351,7 @@ object Commands {
      */
     private fun word(multiple: Int, automatons: Array<Automaton>) {
         val reports: Array<WordsReport> = Array(automatons.size) {
-            WordGenerator.randomWords(automatons[it], multiple)
+            WordGenerator.words(automatons[it], multiple)
         }
 
         CLI.saveFile(MultipleWordsReport(reports), "words")
