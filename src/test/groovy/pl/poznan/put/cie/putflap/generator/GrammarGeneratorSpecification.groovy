@@ -8,9 +8,6 @@ import spock.lang.Unroll
 class GrammarGeneratorSpecification extends Specification {
     def grammarGenerator = new GrammarGenerator(5, 2, ["a", "b", "c", "d", "e", "f"] as String[])
 
-    def setup() {
-    }
-
     @Unroll
     def "should return random regular grammar with specified parameters" () {
         given:

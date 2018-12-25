@@ -47,9 +47,9 @@ object Commands {
             val results = mutableListOf<Pair<GenerationReport, Serializable>>()
             for (i in 0 until multiple) {
                 results.add(when (type) {
-                    Types.RandomType.FSA -> AutomatonGenerator(n, alphabet, finalStates = finals).randomFSA()
-                    Types.RandomType.MEALY -> AutomatonGenerator(n, alphabet, outputAlphabet = alphabet).randomMealy()
-                    Types.RandomType.MOORE -> AutomatonGenerator(n, alphabet, outputAlphabet = alphabet).randomMoore()
+                    Types.RandomType.FSA -> AutomatonGenerator(n, alphabet, finalStates = finals).fsa()
+                    Types.RandomType.MEALY -> AutomatonGenerator(n, alphabet, outputAlphabet = alphabet).mealy()
+                    Types.RandomType.MOORE -> AutomatonGenerator(n, alphabet, outputAlphabet = alphabet).moore()
                     Types.RandomType.REGR -> GrammarGenerator(n, finals, alphabet).regular()
                 })
             }
@@ -63,9 +63,9 @@ object Commands {
             )
         }
         else when (type) {
-            Types.RandomType.FSA -> AutomatonGenerator(n, alphabet, finalStates = finals).randomFSA()
-            Types.RandomType.MEALY -> AutomatonGenerator(n, alphabet, outputAlphabet = alphabet).randomMealy()
-            Types.RandomType.MOORE -> AutomatonGenerator(n, alphabet, outputAlphabet = alphabet).randomMoore()
+            Types.RandomType.FSA -> AutomatonGenerator(n, alphabet, finalStates = finals).fsa()
+            Types.RandomType.MEALY -> AutomatonGenerator(n, alphabet, outputAlphabet = alphabet).mealy()
+            Types.RandomType.MOORE -> AutomatonGenerator(n, alphabet, outputAlphabet = alphabet).moore()
             Types.RandomType.REGR -> GrammarGenerator(n, finals, alphabet).regular()
         }
 
