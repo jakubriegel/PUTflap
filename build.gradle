@@ -39,7 +39,8 @@ dependencies {
     testCompile group: 'org.spockframework', name: 'spock-core', version: '1.2-groovy-2.5'
     testCompile group: 'net.bytebuddy', name: 'byte-buddy-dep', version: '1.9.6'
     testCompile group: 'org.objenesis', name: 'objenesis', version: '3.0.1'
-
+    testCompile group: 'de.jodamob.kotlin', name: 'kotlin-runner-spock', version: '0.3.1'
+    
 }
 
 compileGroovy.enabled = false
