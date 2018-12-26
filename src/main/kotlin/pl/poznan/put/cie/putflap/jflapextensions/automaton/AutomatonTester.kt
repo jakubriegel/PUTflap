@@ -85,7 +85,7 @@ object AutomatonTester {
         return FSAEqualityChecker().equals(a1, a2)
     }
 
-    fun getAlphabets(automatons: Array<Automaton>): MultipleAlphabetReport {
+    fun retrieveAlphabets(automatons: Array<Automaton>): MultipleAlphabetReport {
         return MultipleAlphabetReport(
             Array(automatons.size) { retrieveAlphabet(automatons[it]) }
         )
@@ -119,7 +119,7 @@ object AutomatonTester {
 
     private val grammarAlphabetRegex = Regex("[a-z]+")
 
-    fun getAlphabets(grammars: Array<Grammar>): MultipleAlphabetReport {
+    fun retrieveAlphabets(grammars: Array<Grammar>): MultipleAlphabetReport {
         return MultipleAlphabetReport(
             Array(grammars.size) { retrieveAlphabet(grammars[it]) }
         )

@@ -175,7 +175,7 @@ object Commands {
                 }
                 else throw IncompatibleAutomatonException("Only FSAs can be tested for equivalence")
             }
-            Types.TestType.AL -> AutomatonTester.getAlphabets(automatons)
+            Types.TestType.AL -> AutomatonTester.retrieveAlphabets(automatons)
         }
 
         CLI.saveFile(report, "test_${type.toString().toLowerCase()}_report")
@@ -189,7 +189,7 @@ object Commands {
      */
     private fun test(type: Types.TestType, grammars: Array<Grammar>) {
         val report: Report = when (type) {
-            Types.TestType.AL -> AutomatonTester.getAlphabets(grammars)
+            Types.TestType.AL -> AutomatonTester.retrieveAlphabets(grammars)
             else -> throw InvalidActionException("Grammars can only be tested for alphabet")
         }
 
