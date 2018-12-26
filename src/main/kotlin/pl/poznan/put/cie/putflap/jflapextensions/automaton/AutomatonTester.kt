@@ -3,6 +3,7 @@ package pl.poznan.put.cie.putflap.jflapextensions.automaton
 import jflap.automata.Automaton
 import jflap.automata.LambdaCheckerFactory
 import jflap.automata.NondeterminismDetectorFactory
+import jflap.automata.State
 import jflap.automata.Transition
 import jflap.automata.fsa.FiniteStateAutomaton
 import jflap.automata.graph.FSAEqualityChecker
@@ -31,9 +32,7 @@ object AutomatonTester {
     }
 
     fun checkNondeterminism(automaton: Automaton): NondeterminismReport {
-        val detector = NondeterminismDetectorFactory.getDetector(automaton)
-        val states = detector.getNondeterministicStates(automaton)
-
+        val states = getNondeterministicStates(automaton)
         return NondeterminismReport(
             states.isEmpty(),
             states,
@@ -41,46 +40,62 @@ object AutomatonTester {
         )
     }
 
-    private fun checkLambdaTransitions(automaton: Automaton): LambdaTransitionsReport {
-        val checker = LambdaCheckerFactory.getLambdaChecker(automaton)
-        val transitions = automaton.transitions
-        val lambdaTransitions = mutableListOf<Transition>()
-        transitions.forEach { if (checker.isLambdaTransition(it)) lambdaTransitions.add(it) }
+    private fun getNondeterministicStates(automaton: Automaton): Array<State> {
+        val detector = NondeterminismDetectorFactory.getDetector(automaton)
+        return detector.getNondeterministicStates(automaton)
+    }
 
+    private fun checkLambdaTransitions(automaton: Automaton): LambdaTransitionsReport {
+        val lambdaTransitions = getLambdaTransitions(automaton)
         return LambdaTransitionsReport(
             lambdaTransitions.isNotEmpty()
         )
     }
 
+    private fun getLambdaTransitions(automaton: Automaton): Array<Transition> {
+        val checker = LambdaCheckerFactory.getLambdaChecker(automaton)
+        val transitions = automaton.transitions
+        val lambdaTransitions = mutableListOf<Transition>()
+        transitions.forEach { if (checker.isLambdaTransition(it)) lambdaTransitions.add(it) }
+
+        return lambdaTransitions.toTypedArray()
+    }
+
     fun checkEquivalenceOfManyFSAs(automatons: Array<FiniteStateAutomaton>): EquivalenceReport {
+        return EquivalenceReport(
+            areEquivalent(automatons)
+        )
+    }
+
+    private fun checkEquivalenceOfTwoFSAs(a1: FiniteStateAutomaton, a2: FiniteStateAutomaton): EquivalenceReport {
+        return EquivalenceReport(areEquivalent(a1, a2))
+    }
+
+    private fun areEquivalent(automatons: Array<FiniteStateAutomaton>): Boolean {
         var allEquivalent = true
-        for (i in 1 until automatons.size) if (!checkEquivalenceOfTwoFSAs(automatons[0], automatons[i]).equivalent) {
+        for (i in 1 until automatons.size) if (!areEquivalent(automatons[0], automatons[i])) {
             allEquivalent = false
             break
         }
 
-        return EquivalenceReport(allEquivalent)
+        return allEquivalent
     }
 
-    private fun checkEquivalenceOfTwoFSAs(a1: FiniteStateAutomaton, a2: FiniteStateAutomaton): EquivalenceReport {
-        val equal = FSAEqualityChecker().equals(a1, a2)
-        return EquivalenceReport(equal)
+    private fun areEquivalent(a1: FiniteStateAutomaton, a2: FiniteStateAutomaton): Boolean {
+        return FSAEqualityChecker().equals(a1, a2)
     }
 
     fun getAlphabets(automatons: Array<Automaton>): MultipleAlphabetReport {
         return MultipleAlphabetReport(
-            Array(automatons.size) { getAlphabet(automatons[it]) }
+            Array(automatons.size) { retrieveAlphabet(automatons[it]) }
         )
     }
 
-    fun getAlphabet(automaton: Automaton): AlphabetReport {
-        val inAlphabet = mutableSetOf<String>()
-        automaton.transitions.forEach { inAlphabet.add(it.labelValue()) }
+    fun retrieveAlphabet(automaton: Automaton): AlphabetReport {
+        val inAlphabet = retrieveInAlphabet(automaton)
         val outAlphabet = when (automaton) {
             is MealyMachine -> {
-                val outAlphabet = mutableSetOf<String>()
-                automaton.transitions.forEach { outAlphabet.add((it as MealyTransition).output) }
-                outAlphabet
+                retrieveOutAlphabet(automaton)
             }
             else -> null
         }
@@ -90,20 +105,37 @@ object AutomatonTester {
         )
     }
 
+    private fun retrieveInAlphabet(automaton: Automaton): Array<String> {
+        val inAlphabet = mutableSetOf<String>()
+        automaton.transitions.forEach { inAlphabet.add(it.labelValue()) }
+        return inAlphabet.toTypedArray()
+    }
+
+    private fun retrieveOutAlphabet(automaton: MealyMachine): Array<String> {
+        val outAlphabet = mutableSetOf<String>()
+        automaton.transitions.forEach { outAlphabet.add((it as MealyTransition).output) }
+        return outAlphabet.toTypedArray()
+    }
+
     private val grammarAlphabetRegex = Regex("[a-z]+")
 
     fun getAlphabets(grammars: Array<Grammar>): MultipleAlphabetReport {
         return MultipleAlphabetReport(
-            Array(grammars.size) { getAlphabet(grammars[it]) }
+            Array(grammars.size) { retrieveAlphabet(grammars[it]) }
         )
     }
 
-    fun getAlphabet(grammar: Grammar): AlphabetReport {
+    fun retrieveAlphabet(grammar: Grammar): AlphabetReport {
+        val alphabet = retrieveGrammarAlphabet(grammar)
+        return AlphabetReport(alphabet.sorted().toTypedArray())
+    }
+
+    private fun retrieveGrammarAlphabet(grammar: Grammar): Array<String> {
         val alphabet = mutableSetOf<String>()
         grammar.productions.forEach { production ->
             grammarAlphabetRegex.findAll(production.lhs).forEach { alphabet.add(it.value) }
             grammarAlphabetRegex.findAll(production.rhs).forEach { alphabet.add(it.value) }
         }
-        return AlphabetReport(alphabet.sorted().toTypedArray())
+        return alphabet.toTypedArray()
     }
 }

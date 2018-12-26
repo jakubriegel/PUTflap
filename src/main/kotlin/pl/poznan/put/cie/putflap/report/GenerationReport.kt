@@ -19,14 +19,14 @@ data class GenerationReport internal constructor(
 
     constructor(automaton: Automaton) : this(
         AutomatonType.get(automaton).toString(),
-        AutomatonTester.getAlphabet(automaton),
+        AutomatonTester.retrieveAlphabet(automaton),
         AutomatonTester.checkNondeterminism(automaton),
         AutomatonReport.generate(automaton)
     )
 
     constructor(grammar: Grammar) : this(
         "grammar",
-        AutomatonTester.getAlphabet(grammar),
+        AutomatonTester.retrieveAlphabet(grammar),
         null,
         GrammarReport(grammar)
     )
