@@ -9,12 +9,12 @@ class WordsReportSpecification extends Specification {
     @Unroll
     def "should make words report"() {
         when:
-        def runReport = new WordsReport(requestedNumber, generatedNumber, words as String[])
+        def wordsReport = new WordsReport(requestedNumber, generatedNumber, words as String[])
 
         then:
-        runReport.requestedNumber == requestedNumber
-        runReport.generatedNumber == generatedNumber
-        runReport.words == words
+        wordsReport.requestedNumber == requestedNumber
+        wordsReport.generatedNumber == generatedNumber
+        wordsReport.words == words
 
         where:
         requestedNumber | generatedNumber | words
