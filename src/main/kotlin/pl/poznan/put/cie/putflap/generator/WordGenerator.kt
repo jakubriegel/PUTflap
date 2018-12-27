@@ -18,17 +18,30 @@ object WordGenerator {
     private const val LAMBDA = ""
 
     /**
+     * Generates [n] random, valid words for specified [automaton] and returns [WordsReport]. The number of generated words may be equal or smaller than [n].
+     */
+    fun words(automaton: Automaton, n: Int): WordsReport {
+        val words = randomMultiple(automaton, n)
+
+        return WordsReport(
+            n,
+            words.size,
+            words
+        )
+    }
+
+    /**
      * Generates [n] random, valid words for specified [automaton]. The number of generated words may be equal or smaller than [n]
      */
-    fun randomWords(automaton: Automaton, n: Int = 0): WordsReport {
+    private fun randomMultiple(automaton: Automaton, n: Int): Array<String> {
         val words = mutableSetOf<String>()
         var sinceLastNew = 0
         val maxSinceLastNew = getMaxSinceLastNew(automaton.transitions.size)
         while (words.size < n && sinceLastNew < maxSinceLastNew) {
             val word = when (automaton) {
-                is FiniteStateAutomaton -> randomWord(automaton)
-                is MealyMachine /* also Moore */ -> randomWord(automaton)
-                is PushdownAutomaton -> randomWord(automaton)
+                is FiniteStateAutomaton -> randomSingle(automaton)
+                is MealyMachine /* also Moore */ -> randomSingle(automaton)
+                is PushdownAutomaton -> randomSingle(automaton)
                 else -> TODO("implement word generation for all automatons")
             }
 
@@ -36,14 +49,10 @@ object WordGenerator {
             else sinceLastNew++
         }
 
-        return WordsReport(
-            n,
-            words.size,
-            words.toTypedArray()
-        )
+        return words.toTypedArray()
     }
 
-    private fun randomWord(automaton: Automaton): String {
+    private fun randomSingle(automaton: Automaton): String {
         var word = ""
         var currentState = getStartState(automaton)
 
@@ -67,7 +76,7 @@ object WordGenerator {
         return word
     }
 
-    private fun randomWord(automaton: PushdownAutomaton): String {
+    private fun randomSingle(automaton: PushdownAutomaton): String {
         var word = ""
         var currentState = getStartState(automaton)
         val stack = LinkedList<String>()

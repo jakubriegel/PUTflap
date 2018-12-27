@@ -27,8 +27,12 @@ class GrammarGenerator (
         private const val p = .5
     }
 
-    fun randomRegular(): Pair<GenerationReport, RegularGrammar> {
-        val grammar = RegularGrammar()
+    fun regular(): Pair<GenerationReport, RegularGrammar> {
+        val grammar = randomRegular()
+        return Pair(GenerationReport(grammar), grammar)
+    }
+
+    private fun randomRegular(): RegularGrammar {
         val nonterminals = getNonterminals()
         val productions = mutableSetOf<Production>()
 
@@ -52,14 +56,15 @@ class GrammarGenerator (
         // add some random productions
         while (Math.random() > p) productions.add(
             Production(
-            "${nonterminals.random()}",
-            "${getRandomTerminalProduction()}${nonterminals.random()}"
-        ))
+                "${nonterminals.random()}",
+                "${getRandomTerminalProduction()}${nonterminals.random()}"
+            ))
 
         // add productions to the grammar
+        val grammar = RegularGrammar()
         grammar.addProductions(productions.sortedBy { it.lhs }.toTypedArray())
 
-        return Pair(GenerationReport(grammar), grammar)
+        return grammar
     }
 
     private fun getNonterminals(): Array<Char> {

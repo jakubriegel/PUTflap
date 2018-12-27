@@ -39,33 +39,48 @@ data class StepReport (
                 if (automaton is PushdownAutomaton) "Z" else null
             )
         }
+
+        private fun getRead(configuration: FSAConfiguration): String {
+            val parent = (configuration.parent as FSAConfiguration)
+            return parent.unprocessedInput.substring(
+                0,
+                parent.unprocessedInput.length - configuration.unprocessedInput.length
+            )
+        }
+
+        private fun getRead(configuration: MealyConfiguration): String {
+            val parent = (configuration.parent as MealyConfiguration)
+            return parent.unprocessedInput.substring(
+                0,
+                parent.unprocessedInput.length - configuration.unprocessedInput.length
+            )
+        }
+
+        private fun getRead(configuration: PDAConfiguration): String {
+            val parent = (configuration.parent as PDAConfiguration)
+            return parent.unprocessedInput.substring(
+                0,
+                parent.unprocessedInput.length - configuration.unprocessedInput.length
+            )
+        }
     }
 
     constructor (configuration: FSAConfiguration): this(
         configuration.currentState.id,
-        configuration.input.subSequence(
-            configuration.input.length - configuration.unprocessedInput.length - 1,
-            configuration.input.length - configuration.unprocessedInput.length
-        ).toString(),
+        getRead(configuration),
         configuration.unprocessedInput
     )
 
     constructor (configuration: MealyConfiguration): this(
             configuration.currentState.id,
-            configuration.input.subSequence(
-                configuration.input.length - configuration.unprocessedInput.length - 1,
-                configuration.input.length - configuration.unprocessedInput.length
-            ).toString(),
+            getRead(configuration),
             configuration.unprocessedInput,
             configuration.output
         )
 
     constructor (configuration: PDAConfiguration): this(
             configuration.currentState.id,
-            configuration.input.subSequence(
-                configuration.input.length - configuration.unprocessedInput.length - 1,
-                configuration.input.length - configuration.unprocessedInput.length
-            ).toString(),
+            getRead(configuration),
             configuration.unprocessedInput,
             stack = configuration.stack.toString()
         )

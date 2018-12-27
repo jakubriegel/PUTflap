@@ -1,0 +1,25 @@
+{
+  "instruction": "convert",
+  "parameters": {
+    "type": "FSA",
+    "json": true,
+    "input": [
+      {
+        "type" : "grammar",
+        "productions" : [ {
+          "left" : "A",
+          "right" : "aB"
+        }, {
+          "left" : "B",
+          "right" : "bC"
+        }, {
+          "left" : "C",
+          "right" : "cX"
+        }, {
+          "left" : "X",
+          "right" : ""
+        } ]
+      }
+    ]
+  }
+}

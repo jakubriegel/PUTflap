@@ -43,7 +43,12 @@ class AutomatonGenerator(
     /**
      * Generates random Finite State Automaton
      */
-    fun randomFSA(): Pair<GenerationReport, FiniteStateAutomaton> {
+    fun fsa(): Pair<GenerationReport, FiniteStateAutomaton> {
+        val automaton = randomFSA()
+        return Pair(GenerationReport(automaton), automaton)
+    }
+
+    private fun randomFSA(): FiniteStateAutomaton {
         randomUndirectedConnectedGraph()
         oneInToEachNonInitialState()
         oneOutFromEachNonFinalState()
@@ -56,13 +61,18 @@ class AutomatonGenerator(
                 inState, outState, letter -> FSATransition(inState, outState, letter)
         }
 
-        return Pair(GenerationReport(automaton), automaton)
+        return automaton
     }
 
     /**
      * Generates random Mealy Machine
      */
-    fun randomMealy():  Pair<GenerationReport, MealyMachine> {
+    fun mealy(): Pair<GenerationReport, MealyMachine> {
+        val automaton = randomMealy()
+        return Pair(GenerationReport(automaton), automaton)
+    }
+
+    private fun randomMealy(): MealyMachine {
         randomUndirectedConnectedGraph()
         oneInToEachNonInitialState()
         randomTransitions()
@@ -74,13 +84,18 @@ class AutomatonGenerator(
                 inState, outState, letter -> MealyTransition(inState, outState, letter, getRandomOutputLetter())
         }
 
-        return Pair(GenerationReport(automaton), automaton)
+        return automaton
     }
 
     /**
      * Generates random Moore Machine
      */
-    fun randomMoore():  Pair<GenerationReport, MooreMachine> {
+    fun moore(): Pair<GenerationReport, MooreMachine> {
+        val automaton = randomMoore()
+        return Pair(GenerationReport(automaton), automaton)
+    }
+
+    private fun randomMoore(): MooreMachine {
         randomUndirectedConnectedGraph()
         oneInToEachNonInitialState()
         randomTransitions()
@@ -94,7 +109,7 @@ class AutomatonGenerator(
                 inState, outState, letter -> MooreTransition(inState, outState, letter)
         }
 
-        return Pair(GenerationReport(automaton), automaton)
+        return automaton
     }
 
     /**

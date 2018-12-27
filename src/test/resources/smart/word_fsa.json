@@ -1,0 +1,287 @@
+{
+  "instruction": "word",
+  "parameters": {
+    "multiple": 500,
+    "inputs": [
+      {
+        "type" : "FA",
+        "states" : [ {
+          "id" : 0,
+          "name" : "q0",
+          "label" : "",
+          "type" : "INITIAL",
+          "x" : 102,
+          "y" : 80
+        }, {
+          "id" : 4,
+          "name" : "q4",
+          "label" : "",
+          "type" : "FINAL",
+          "x" : 221,
+          "y" : 326
+        }, {
+          "id" : 1,
+          "name" : "q1",
+          "label" : "",
+          "type" : "STATE",
+          "x" : 221,
+          "y" : 53
+        }, {
+          "id" : 2,
+          "name" : "q2",
+          "label" : "",
+          "type" : "STATE",
+          "x" : 316,
+          "y" : 129
+        }, {
+          "id" : 3,
+          "name" : "q3",
+          "label" : "",
+          "type" : "STATE",
+          "x" : 316,
+          "y" : 250
+        }, {
+          "id" : 5,
+          "name" : "q5",
+          "label" : "",
+          "type" : "FINAL",
+          "x" : 102,
+          "y" : 299
+        }, {
+          "id" : 6,
+          "name" : "q6",
+          "label" : "",
+          "type" : "FINAL",
+          "x" : 50,
+          "y" : 190
+        } ],
+        "transitions" : [ {
+          "from" : 3,
+          "to" : 3,
+          "read" : "a"
+        }, {
+          "from" : 6,
+          "to" : 6,
+          "read" : "b"
+        }, {
+          "from" : 3,
+          "to" : 3,
+          "read" : "c"
+        }, {
+          "from" : 1,
+          "to" : 3,
+          "read" : "g"
+        }, {
+          "from" : 3,
+          "to" : 1,
+          "read" : "d"
+        }, {
+          "from" : 4,
+          "to" : 1,
+          "read" : "f"
+        }, {
+          "from" : 4,
+          "to" : 0,
+          "read" : "d"
+        }, {
+          "from" : 3,
+          "to" : 4,
+          "read" : "h"
+        }, {
+          "from" : 6,
+          "to" : 2,
+          "read" : "h"
+        }, {
+          "from" : 5,
+          "to" : 3,
+          "read" : "a"
+        }, {
+          "from" : 4,
+          "to" : 5,
+          "read" : "b"
+        }, {
+          "from" : 6,
+          "to" : 3,
+          "read" : "g"
+        }, {
+          "from" : 2,
+          "to" : 4,
+          "read" : "a"
+        }, {
+          "from" : 2,
+          "to" : 4,
+          "read" : "f"
+        }, {
+          "from" : 1,
+          "to" : 2,
+          "read" : "e"
+        }, {
+          "from" : 2,
+          "to" : 3,
+          "read" : "h"
+        }, {
+          "from" : 2,
+          "to" : 0,
+          "read" : "e"
+        }, {
+          "from" : 0,
+          "to" : 6,
+          "read" : "a"
+        }, {
+          "from" : 2,
+          "to" : 0,
+          "read" : "g"
+        }, {
+          "from" : 0,
+          "to" : 6,
+          "read" : "d"
+        }, {
+          "from" : 6,
+          "to" : 0,
+          "read" : "f"
+        } ]
+      },
+      {
+        "type" : "FA",
+        "states" : [ {
+          "id" : 3,
+          "name" : "q2",
+          "label" : "",
+          "type" : "FINAL",
+          "x" : 71,
+          "y" : 147
+        }, {
+          "id" : 0,
+          "name" : "q0",
+          "label" : "",
+          "type" : "INITIAL",
+          "x" : 130,
+          "y" : 50
+        }, {
+          "id" : 2,
+          "name" : "q1",
+          "label" : "",
+          "type" : "STATE",
+          "x" : 225,
+          "y" : 141
+        } ],
+        "transitions" : [ {
+          "from" : 3,
+          "to" : 3,
+          "read" : "a"
+        }, {
+          "from" : 0,
+          "to" : 2,
+          "read" : "c"
+        }, {
+          "from" : 2,
+          "to" : 0,
+          "read" : "b"
+        }, {
+          "from" : 0,
+          "to" : 3,
+          "read" : "a"
+        } ]
+      },
+      {
+        "type" : "FA",
+        "states" : [ {
+          "id" : 3,
+          "name" : "q3",
+          "label" : "",
+          "type" : "STATE",
+          "x" : 230,
+          "y" : 273
+        }, {
+          "id" : 5,
+          "name" : "q5",
+          "label" : "",
+          "type" : "FINAL",
+          "x" : 50,
+          "y" : 170
+        }, {
+          "id" : 1,
+          "name" : "q1",
+          "label" : "",
+          "type" : "STATE",
+          "x" : 230,
+          "y" : 66
+        }, {
+          "id" : 4,
+          "name" : "q4",
+          "label" : "",
+          "type" : "FINAL",
+          "x" : 110,
+          "y" : 273
+        }, {
+          "id" : 0,
+          "name" : "q0",
+          "label" : "",
+          "type" : "INITIAL",
+          "x" : 109,
+          "y" : 66
+        }, {
+          "id" : 2,
+          "name" : "q2",
+          "label" : "",
+          "type" : "STATE",
+          "x" : 290,
+          "y" : 170
+        } ],
+        "transitions" : [ {
+          "from" : 1,
+          "to" : 1,
+          "read" : ""
+        }, {
+          "from" : 2,
+          "to" : 5,
+          "read" : "j"
+        }, {
+          "from" : 3,
+          "to" : 2,
+          "read" : "h"
+        }, {
+          "from" : 3,
+          "to" : 2,
+          "read" : "g"
+        }, {
+          "from" : 0,
+          "to" : 2,
+          "read" : "h"
+        }, {
+          "from" : 4,
+          "to" : 1,
+          "read" : "h"
+        }, {
+          "from" : 4,
+          "to" : 2,
+          "read" : "g"
+        }, {
+          "from" : 1,
+          "to" : 5,
+          "read" : "h"
+        }, {
+          "from" : 0,
+          "to" : 1,
+          "read" : ""
+        }, {
+          "from" : 4,
+          "to" : 3,
+          "read" : "g"
+        }, {
+          "from" : 4,
+          "to" : 5,
+          "read" : "a"
+        }, {
+          "from" : 0,
+          "to" : 4,
+          "read" : "j"
+        }, {
+          "from" : 1,
+          "to" : 2,
+          "read" : "h"
+        } ]
+      }
+    ]
+  }
+}

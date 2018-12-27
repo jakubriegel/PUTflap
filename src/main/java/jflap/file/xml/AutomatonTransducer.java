@@ -209,7 +209,7 @@ public abstract class AutomatonTransducer extends AbstractTransducer {
 	//Add the blocks
 	protected void addBlocks(Node node, Automaton automaton, Set<Object> locatedStates,
 			Map<Integer, State> i2s, Document document) {
-        assert(automaton instanceof TuringMachine); //this code should really be in TMTransducer, but I see why it's here
+//        assert(automaton instanceof TuringMachine); //this code should really be in TMTransducer, but I see why it's here
         if(node == null) return;
 		if (!node.hasChildNodes())
 			return;

@@ -1,0 +1,92 @@
+{
+	"type" : "MEALY",
+	"states" : [ {
+		"id" : 5,
+		"name" : "q5",
+		"label" : "",
+		"type" : "STATE",
+		"x" : 50,
+		"y" : 170
+	}, {
+		"id" : 4,
+		"name" : "q4",
+		"label" : "",
+		"type" : "STATE",
+		"x" : 110,
+		"y" : 273
+	}, {
+		"id" : 3,
+		"name" : "q3",
+		"label" : "",
+		"type" : "STATE",
+		"x" : 230,
+		"y" : 273
+	}, {
+		"id" : 1,
+		"name" : "q1",
+		"label" : "",
+		"type" : "STATE",
+		"x" : 230,
+		"y" : 66
+	}, {
+		"id" : 2,
+		"name" : "q2",
+		"label" : "",
+		"type" : "STATE",
+		"x" : 290,
+		"y" : 170
+	}, {
+		"id" : 0,
+		"name" : "q0",
+		"label" : "",
+		"type" : "INITIAL",
+		"x" : 109,
+		"y" : 66
+	} ],
+	"transitions" : [ {
+		"from" : 1,
+		"to" : 2,
+		"read" : "j",
+		"value" : "i"
+	}, {
+		"from" : 0,
+		"to" : 3,
+		"read" : "d",
+		"value" : "j"
+	}, {
+		"from" : 0,
+		"to" : 2,
+		"read" : "f",
+		"value" : "l"
+	}, {
+		"from" : 1,
+		"to" : 2,
+		"read" : "e",
+		"value" : "k"
+	}, {
+		"from" : 2,
+		"to" : 3,
+		"read" : "f",
+		"value" : "e"
+	}, {
+		"from" : 2,
+		"to" : 3,
+		"read" : "d",
+		"value" : "d"
+	}, {
+		"from" : 2,
+		"to" : 5,
+		"read" : "i",
+		"value" : "h"
+	}, {
+		"from" : 0,
+		"to" : 4,
+		"read" : "c",
+		"value" : "d"
+	}, {
+		"from" : 0,
+		"to" : 1,
+		"read" : "l",
+		"value" : "g"
+	} ]
+}

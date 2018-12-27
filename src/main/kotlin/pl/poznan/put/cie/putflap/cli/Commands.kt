@@ -47,10 +47,10 @@ object Commands {
             val results = mutableListOf<Pair<GenerationReport, Serializable>>()
             for (i in 0 until multiple) {
                 results.add(when (type) {
-                    Types.RandomType.FSA -> AutomatonGenerator(n, alphabet, finalStates = finals).randomFSA()
-                    Types.RandomType.MEALY -> AutomatonGenerator(n, alphabet, outputAlphabet = alphabet).randomMealy()
-                    Types.RandomType.MOORE -> AutomatonGenerator(n, alphabet, outputAlphabet = alphabet).randomMoore()
-                    Types.RandomType.REGR -> GrammarGenerator(n, finals, alphabet).randomRegular()
+                    Types.RandomType.FSA -> AutomatonGenerator(n, alphabet, finalStates = finals).fsa()
+                    Types.RandomType.MEALY -> AutomatonGenerator(n, alphabet, outputAlphabet = alphabet).mealy()
+                    Types.RandomType.MOORE -> AutomatonGenerator(n, alphabet, outputAlphabet = alphabet).moore()
+                    Types.RandomType.REGR -> GrammarGenerator(n, finals, alphabet).regular()
                 })
             }
 
@@ -63,10 +63,10 @@ object Commands {
             )
         }
         else when (type) {
-            Types.RandomType.FSA -> AutomatonGenerator(n, alphabet, finalStates = finals).randomFSA()
-            Types.RandomType.MEALY -> AutomatonGenerator(n, alphabet, outputAlphabet = alphabet).randomMealy()
-            Types.RandomType.MOORE -> AutomatonGenerator(n, alphabet, outputAlphabet = alphabet).randomMoore()
-            Types.RandomType.REGR -> GrammarGenerator(n, finals, alphabet).randomRegular()
+            Types.RandomType.FSA -> AutomatonGenerator(n, alphabet, finalStates = finals).fsa()
+            Types.RandomType.MEALY -> AutomatonGenerator(n, alphabet, outputAlphabet = alphabet).mealy()
+            Types.RandomType.MOORE -> AutomatonGenerator(n, alphabet, outputAlphabet = alphabet).moore()
+            Types.RandomType.REGR -> GrammarGenerator(n, finals, alphabet).regular()
         }
 
         CLI.saveFile(result, "new_${type.name.toLowerCase()}", json)
@@ -175,7 +175,7 @@ object Commands {
                 }
                 else throw IncompatibleAutomatonException("Only FSAs can be tested for equivalence")
             }
-            Types.TestType.AL -> AutomatonTester.getAlphabets(automatons)
+            Types.TestType.AL -> AutomatonTester.retrieveAlphabets(automatons)
         }
 
         CLI.saveFile(report, "test_${type.toString().toLowerCase()}_report")
@@ -189,7 +189,7 @@ object Commands {
      */
     private fun test(type: Types.TestType, grammars: Array<Grammar>) {
         val report: Report = when (type) {
-            Types.TestType.AL -> AutomatonTester.getAlphabets(grammars)
+            Types.TestType.AL -> AutomatonTester.retrieveAlphabets(grammars)
             else -> throw InvalidActionException("Grammars can only be tested for alphabet")
         }
 
@@ -337,7 +337,7 @@ object Commands {
      * @param automaton automaton to get words for
      */
     private fun word(multiple: Int, json: Boolean, automaton: Automaton) {
-        val report = WordGenerator.randomWords(automaton, multiple)
+        val report = WordGenerator.words(automaton, multiple)
 
         if (json) CLI.saveFile(report, "words")
         else for (word in report.words) println(word)
@@ -351,7 +351,7 @@ object Commands {
      */
     private fun word(multiple: Int, automatons: Array<Automaton>) {
         val reports: Array<WordsReport> = Array(automatons.size) {
-            WordGenerator.randomWords(automatons[it], multiple)
+            WordGenerator.words(automatons[it], multiple)
         }
 
         CLI.saveFile(MultipleWordsReport(reports), "words")
